@@ -145,13 +145,13 @@
 
   initParallax();
 
-  if (!hasGsap) { complete(); return; }
+  if (!hasGsap) { root.classList.remove('intro-pre'); complete(); return; }
 
   /* ---------- Reduced motion: short fade, no flight ---------- */
   if (reduced) {
     gsap.set('#helmet', { clearProps: 'all' });
     var rtl = gsap.timeline({ paused: true });
-    rtl.from('#logo', { opacity: 0, duration: 0.8 });
+    rtl.from('#logo', { opacity: 0, duration: 0.8 }); root.classList.remove('intro-pre');
     addHandoff(rtl, 1.8);
     var playR = function () { if (!revealed) rtl.play(); };
     Promise.all([loaded(document.getElementById('helmet')), loaded(document.querySelector('#logo .letters'))]).then(playR);
@@ -234,7 +234,7 @@
 
   gsap.set(letters, { opacity: 0, filter: 'blur(18px) brightness(2.2)', scale: 1.08 });
   gsap.set(helmet, { opacity: 0 });
-  stageLogo();
+  stageLogo(); root.classList.remove('intro-pre'); // GSAP now owns letters/helmet opacity
 
   function build() {
     tl = gsap.timeline();
