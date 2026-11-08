@@ -1,0 +1,6 @@
+# KGSO static site
+User-agent: *
+Allow: /
+
+# Replace https://example.com with the production origin before deploy
+Sitemap: https://example.com/sitemap.xml

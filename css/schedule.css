@@ -1,0 +1,118 @@
+/*
+ * Schedule section: three date cards, the guidebook button and the two registration links.
+ * Frames reuse .kx-bg from about.css; the heading reuses .kx-head.
+ */
+.sc-body {
+  width: min(980px, 100%);
+  display: flex; flex-direction: column; gap: clamp(16px, 2.4vw, 26px);
+}
+
+.sc-days {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(12px, 2vw, 24px);
+  margin: 0; padding: 0; list-style: none;
+}
+.sc-day, .sc-btn { position: relative; isolation: isolate; transition: translate .3s cubic-bezier(.2, .8, .2, 1); }
+.sc-day .kx-bg, .sc-btn .kx-bg { transition: filter .3s; }
+.sc-day:hover, .sc-btn:hover, .sc-btn:focus-visible { translate: 0 -5px; }
+.sc-day:hover .kx-bg, .sc-btn:hover .kx-bg, .sc-btn:focus-visible .kx-bg {
+  --rim: linear-gradient(160deg, #fff, #c9a8ff 40%, #9d73ff 75%, #e2d4ff);
+  filter: drop-shadow(0 0 18px #a67cffdd) drop-shadow(0 6px 0 #2a0f6e);
+}
+
+/* ---------- Date cards ---------- */
+.sc-day {
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  padding: clamp(22px, 2.8vw, 30px) 14px clamp(20px, 2.6vw, 26px);
+  color: #efe6ff;
+}
+.sc-day .kx-bg { --c: 18px; --c2: 7px; --io: 6px; }
+.sc-day .kx-bg > b { width: 26%; }
+.sc-day time { display: flex; flex-direction: column; align-items: center; width: 100%; }
+.sc-tag {
+  position: absolute; top: clamp(12px, 1.6vw, 16px); right: clamp(14px, 1.8vw, 20px);
+  font: 700 .62rem/1 'Silkscreen', 'Courier New', monospace;
+  letter-spacing: .22em; text-transform: uppercase; color: #b9a2ef;
+}
+.sc-cal {
+  width: clamp(26px, 2.6vw, 32px); height: auto; fill: #fff;
+  filter: drop-shadow(0 0 6px #b48cffaa);
+}
+.sc-cal .hi { fill: #b993ff; }
+.sc-num {
+  margin-top: .45em;
+  font: 400 clamp(2.2rem, 4.6vw, 3.3rem)/1 'Press Start 2P', 'Silkscreen', monospace;
+  color: #fff; font-variant-numeric: tabular-nums;
+  text-shadow: .08em .08em 0 #6a3fd0, 0 0 .4em #b48cffaa;
+}
+.sc-month {
+  display: flex; align-items: center; justify-content: center; gap: .8em; width: 100%;
+  margin-top: 1.2em; padding-left: .3em;
+  font: 700 clamp(.66rem, 1.1vw, .8rem)/1 'Silkscreen', 'Courier New', monospace;
+  letter-spacing: .3em; text-transform: uppercase; color: #e2d4ff;
+}
+.sc-month::before, .sc-month::after {
+  content: ''; flex: 0 1 44px; height: 2px;
+  background: linear-gradient(90deg, #9d73ff00, #b993ff);
+}
+.sc-month::after { background: linear-gradient(90deg, #b993ff, #9d73ff00); }
+.sc-pill {
+  position: relative; isolation: isolate;
+  margin-top: 1em; padding: .75em 1.4em .75em calc(1.4em + .3em); min-width: 66%;
+  font: 400 clamp(.56rem, .95vw, .68rem)/1 'Press Start 2P', 'Silkscreen', monospace;
+  letter-spacing: .3em; text-transform: uppercase; color: #fff;
+}
+.sc-pill::before, .sc-pill::after {
+  content: ''; position: absolute; z-index: -1;
+  clip-path: polygon(6px 0, calc(100% - 6px) 0, 100% 6px, 100% calc(100% - 6px),
+    calc(100% - 6px) 100%, 6px 100%, 0 calc(100% - 6px), 0 6px);
+}
+.sc-pill::before { inset: 0; background: #9d73ff; }
+.sc-pill::after { inset: 2px; background: linear-gradient(#2b1466, #170a3b); }
+.sc-day:hover .sc-pill::before { background: #e2d4ff; }
+
+/* ---------- Guidebook + registration buttons ---------- */
+.sc-btn {
+  display: flex; align-items: center; gap: clamp(12px, 2vw, 22px);
+  padding: clamp(16px, 2vw, 22px) clamp(18px, 2.6vw, 30px);
+  color: #fff; text-decoration: none; cursor: pointer;
+}
+.sc-btn .kx-bg { --c: 14px; --c2: 6px; --io: 5px; }
+.sc-btn .kx-bg > b { width: 14%; height: 4px; }
+.sc-btn:focus-visible { outline: 3px solid #fff; outline-offset: 5px; }
+.sc-btn:active { translate: 0 1px; }
+.sc-ico {
+  flex: none; width: clamp(30px, 3.2vw, 38px); height: auto; fill: #fff;
+  filter: drop-shadow(0 0 6px #b48cffaa);
+}
+.sc-div { flex: none; align-self: stretch; width: 2px; margin: 2px 0; background: linear-gradient(#b993ff00, #b993ff, #b993ff00); }
+.sc-label { flex: 1; display: flex; flex-direction: column; gap: .7em; min-width: 0; }
+.sc-label strong {
+  font: 400 clamp(.7rem, 1.3vw, .95rem)/1.35 'Press Start 2P', 'Silkscreen', monospace;
+  letter-spacing: .14em; text-transform: uppercase;
+  text-shadow: 0 .14em 0 #6a3fd0, 0 0 .5em #b48cff88;
+}
+.sc-label small {
+  font: 400 clamp(.6rem, .95vw, .72rem)/1.2 'Silkscreen', 'Courier New', monospace;
+  letter-spacing: .26em; text-transform: uppercase; color: #cdb4ff;
+}
+.sc-chev { flex: none; width: 11px; height: auto; fill: #b993ff; transition: translate .2s steps(2), fill .2s; }
+.sc-btn:hover .sc-chev, .sc-btn:focus-visible .sc-chev { translate: 5px 0; fill: #fff; }
+
+.sc-guide { justify-content: center; }
+.sc-guide .sc-label { flex: 0 1 auto; padding: 0 clamp(4px, 3vw, 40px); }
+.sc-guide .sc-label strong { font-size: clamp(.7rem, 1.6vw, 1.15rem); letter-spacing: .24em; white-space: nowrap; }
+
+.sc-regs { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(12px, 2vw, 24px); }
+
+@media (max-width: 760px) {
+  .sc-days, .sc-regs { grid-template-columns: 1fr; }
+  .sc-day { padding: 20px 14px 18px; }
+  .sc-num { font-size: 2.4rem; }
+}
+@media (max-width: 420px) {
+  .sc-guide .sc-label { padding: 0 4px; }
+  .sc-guide .sc-label strong { font-size: .7rem; letter-spacing: .16em; }
+}
+
+html.reduced-motion .sc-day, html.reduced-motion .sc-btn,
+html.reduced-motion .sc-day .kx-bg, html.reduced-motion .sc-btn .kx-bg, html.reduced-motion .sc-chev { transition: none; }

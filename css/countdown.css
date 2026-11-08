@@ -1,0 +1,196 @@
+/*
+ * Countdown under the logo. Sizes derive from:
+ *   --u   text/spacing unit, --bw/--bh box size, --gap box gap, --px "pixel" of the frame art
+ * Hidden until the intro reveal fades it in (intro.js), then driven by helmet-path.js.
+ */
+#countdown {
+  --u: min(1.2cqw, .9cqh);
+  --gap: calc(var(--u) * 1.6);
+  --bw: min(calc((100cqw - 40px - 3 * var(--gap)) / 4), calc(var(--u) * 24));
+  --bh: calc(var(--bw) * .86);
+  --px: calc(var(--bw) * .03);
+  --num: calc(var(--bw) * .3);
+  --label: calc(var(--bw) * .1);
+  --sep: min(70cqw, calc(var(--u) * 60));
+
+  position: relative;
+  margin-top: calc(var(--u) * 4);
+  text-align: center; color: #efe6ff;
+  font-family: 'Silkscreen', 'Courier New', monospace;
+  text-transform: uppercase;
+  opacity: 0; visibility: hidden;
+}
+html.intro-done #countdown { opacity: 1; visibility: visible; }
+#countdown p { margin: 0; }
+
+.cd-title {
+  font-size: calc(var(--u) * 2.3); letter-spacing: .3em; padding-left: .3em;
+  color: #f1e8ff; text-shadow: 0 0 calc(var(--u) * 1.2) #a77bffaa;
+}
+
+/* Divider: line fading out at both ends, gap around a centre sparkle */
+.cd-sep {
+  position: relative; width: var(--sep); height: max(1px, calc(var(--px) * .5));
+  margin: calc(var(--u) * 3.4) auto;
+  background: linear-gradient(90deg, #b48cff00, #b48cffcc 18%, #b48cffcc 44%, #b48cff00 47%,
+    #b48cff00 53%, #b48cffcc 56%, #b48cffcc 82%, #b48cff00);
+}
+.cd-sep--top { width: calc(var(--sep) * .45); margin: calc(var(--u) * 2.2) auto; opacity: .7; }
+.cd-sep::after,
+.cd-box::before, .cd-box::after {
+  content: ''; position: absolute; background: #fff;
+  clip-path: polygon(50% 0, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0 50%, 40% 40%);
+}
+.cd-sep::after {
+  --s: calc(var(--u) * 2.8);
+  width: var(--s); height: var(--s); left: 50%; top: 50%; margin: calc(var(--s) / -2);
+  filter: drop-shadow(0 0 calc(var(--u) * .6) #d9c7ff);
+}
+.cd-sep--top::after { --s: calc(var(--u) * 2); }
+
+.cd-boxes { display: flex; justify-content: center; gap: var(--gap); width: max-content; margin: 0 auto; }
+.cd-box {
+  position: relative;
+  width: var(--bw); height: var(--bh);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: calc(var(--bh) * .1);
+  /* stepped pixel frame + translucent fill, 9-sliced from a 16x16 pixel drawing */
+  border: calc(var(--px) * 4) solid transparent;
+  border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' shape-rendering='crispEdges'%3E%3Cpath fill='%23100628' fill-opacity='.62' d='M3 1H13V2H14V3H15V13H14V14H13V15H3V14H2V13H1V3H2V2H3Z'/%3E%3Cpath fill='%23cdb0ff' d='M3 0h10v1H3zM3 15h10v1H3zM0 3h1v10H0zM15 3h1v10h-1zM2 1h1v1H2zM1 2h1v1H1zM13 1h1v1h-1zM14 2h1v1h-1zM1 13h1v1H1zM2 14h1v1H2zM14 13h1v1h-1zM13 14h1v1h-1z'/%3E%3C/svg%3E") 4 fill / 1 / 0 stretch;
+  filter: drop-shadow(0 0 calc(var(--px) * 2.5) #8a5cf6bb);
+}
+/* sparkles inside the frame */
+.cd-box::before { width: calc(var(--bw) * .07); height: calc(var(--bw) * .07); left: 4%; top: 8%; opacity: .9; }
+.cd-box::after { width: calc(var(--bw) * .05); height: calc(var(--bw) * .05); right: 5%; bottom: 14%; opacity: .7; }
+.cd-box:nth-child(even)::before { left: auto; right: 6%; top: 10%; }
+.cd-box:nth-child(even)::after { right: auto; left: 7%; bottom: 18%; }
+
+.cd-num {
+  font-family: 'Press Start 2P', 'Silkscreen', monospace;
+  font-size: var(--num); line-height: 1; color: #fff;
+  font-variant-numeric: tabular-nums;
+  text-shadow: calc(var(--px) * .8) calc(var(--px) * .8) 0 #6a3fd0, 0 0 calc(var(--num) * .35) #b48cffaa;
+}
+.cd-label { font-size: var(--label); line-height: 1; letter-spacing: .12em; padding-left: .12em; color: #e6dcff; }
+
+.cd-live {
+  font-family: 'Press Start 2P', 'Silkscreen', monospace;
+  font-size: calc(var(--u) * 4.4); line-height: 1.3; letter-spacing: .08em; color: #fff;
+  text-shadow: calc(var(--u) * .35) calc(var(--u) * .35) 0 #6a3fd0, 0 0 calc(var(--u) * 2) #b48cff;
+}
+#countdown.is-live .cd-boxes { display: none; }
+
+/*
+ * "Register now!" button: ::before is the stepped pixel frame, ::after the glowing fill
+ * (inset by one frame pixel --b); --c is the corner step. Opens the popup in register.js.
+ * #intro ignores pointer input after the reveal, so the button opts back in.
+ */
+.cd-register {
+  --b: max(2px, calc(var(--u) * .42));
+  --c: var(--b);
+  --f1: #a77bff; --f2: #7444e6; --f3: #4f25b8;
+  --rim: #d9c7ff;
+  position: relative; display: block; width: max-content; margin: 0 auto;
+  padding: 1.15em 1.85em 1.15em 2em;
+  font: 400 max(11px, calc(var(--u) * 2.25))/1 'Press Start 2P', 'Silkscreen', monospace;
+  letter-spacing: .15em; text-transform: uppercase; color: #fff;
+  background: none; border: 0; cursor: pointer;
+  pointer-events: auto; isolation: isolate;
+  filter: drop-shadow(0 var(--b) 0 #2a0f6e);
+  transition: translate .16s steps(2), filter .16s steps(2);
+}
+.cd-register::before, .cd-register::after {
+  content: ''; position: absolute; z-index: -1;
+  clip-path: polygon(calc(var(--c) * 2) 0, calc(100% - var(--c) * 2) 0, calc(100% - var(--c) * 2) var(--c),
+    calc(100% - var(--c)) var(--c), calc(100% - var(--c)) calc(var(--c) * 2), 100% calc(var(--c) * 2),
+    100% calc(100% - var(--c) * 2), calc(100% - var(--c)) calc(100% - var(--c) * 2),
+    calc(100% - var(--c)) calc(100% - var(--c)), calc(100% - var(--c) * 2) calc(100% - var(--c)),
+    calc(100% - var(--c) * 2) 100%, calc(var(--c) * 2) 100%, calc(var(--c) * 2) calc(100% - var(--c)),
+    var(--c) calc(100% - var(--c)), var(--c) calc(100% - var(--c) * 2), 0 calc(100% - var(--c) * 2),
+    0 calc(var(--c) * 2), var(--c) calc(var(--c) * 2), var(--c) var(--c), calc(var(--c) * 2) var(--c));
+}
+.cd-register::before { inset: 0; background: var(--rim); }
+.cd-register::after {
+  inset: var(--b);
+  background:
+    linear-gradient(#ffffff40, #fff0 45%),
+    linear-gradient(var(--f1), var(--f2) 55%, var(--f3));
+}
+.reg-btn-glow {
+  position: absolute; z-index: -2; inset: -45% -14%; pointer-events: none;
+  background: radial-gradient(closest-side, #9b6bffaa, #9b6bff44 55%, #9b6bff00);
+  opacity: .8;
+}
+.reg-btn-label {
+  position: relative; display: block;
+  text-shadow: calc(var(--b) * .8) calc(var(--b) * .8) 0 #3b1696, 0 0 .7em #ffffff66;
+}
+.reg-btn-spark {
+  position: absolute; left: -.55em; top: -.6em; width: 1.25em; aspect-ratio: 1; pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Cpath fill='%23fff' d='M4 0h1v9H4zM0 4h9v1H0zM3 3h3v3H3z'/%3E%3C/svg%3E") center / contain no-repeat;
+  filter: drop-shadow(0 0 .25em #d9c7ff);
+}
+.reg-btn-spark--b { left: auto; top: auto; right: -.4em; bottom: -.45em; width: .85em; }
+
+.cd-register:hover, .cd-register:focus-visible {
+  --f1: #c4a3ff; --f2: #8d5cff; --f3: #5f30d4; --rim: #fff;
+  translate: 0 calc(var(--b) * -1.5);
+  filter: drop-shadow(0 calc(var(--b) * 2.5) 0 #2a0f6e) drop-shadow(0 0 calc(var(--u) * 1.6) #b48cff);
+}
+.cd-register:hover .reg-btn-glow, .cd-register:focus-visible .reg-btn-glow { opacity: 1; inset: -60% -20%; }
+.cd-register:active {
+  --f1: #c4a3ff; --f2: #8d5cff; --f3: #5f30d4; --rim: #fff;
+  translate: 0 var(--b);
+  filter: drop-shadow(0 0 0 #2a0f6e) drop-shadow(0 0 calc(var(--u) * 1.2) #b48cff);
+}
+.cd-register:active .reg-btn-glow { opacity: 1; }
+
+/* Short / cramped viewports: keep Register reachable without crushing logo */
+@media (max-height: 520px) {
+  #countdown { --u: min(1.1cqw, 1.4cqh); margin-top: calc(var(--u) * 2); }
+  .cd-sep { margin: calc(var(--u) * 2) auto; }
+  .cd-sep--top { margin: calc(var(--u) * 1.2) auto; }
+  .cd-register { padding: 1em 1.6em; font-size: max(10px, calc(var(--u) * 2)); }
+}
+.cd-register:focus-visible { outline: max(2px, var(--b)) solid #fff; outline-offset: calc(var(--b) * 2.5); }
+
+html.reduced-motion .cd-register { transition: none; }
+/*
+ * Image-aligned layout (desktop and portrait screens): rows are placed in background-image
+ * coordinates; on 16:9 the boxes land on the ghost boxes baked into the art.
+ */
+@media (max-aspect-ratio: 2/1) and (min-height: 480px) {
+  #countdown {
+    --u: min(calc(var(--ih) / 100), 1.25cqw);
+    --gap: min(calc(var(--iw) * .019), 2cqw);
+    --bw: min(calc(var(--iw) * .163), calc((100cqw - 40px - 3 * var(--gap)) / 4));
+    --bh: calc(var(--ih) * .199);
+    --px: min(calc(var(--ih) * .0044), calc(var(--bw) * .022));
+    --num: min(calc(var(--ih) * .068), calc(var(--bh) * .36));
+    --label: min(calc(var(--ih) * .019), calc(var(--bw) * .065));
+    --sep: min(calc(var(--iw) * .36), 80cqw);
+    position: absolute; left: 0; right: 0; margin: 0;
+    top: var(--iy); height: var(--ih);
+  }
+  /* each row is centred on its y in the art (percent of image height) */
+  #countdown > * { position: absolute; left: 0; right: 0; margin: 0 auto; transform: translateY(-50%); }
+  #countdown .cd-title { top: 39.7%; letter-spacing: .55em; padding-left: .55em; }
+  #countdown .cd-sep--top { top: 45%; }
+  #countdown .cd-boxes, #countdown .cd-live { top: 56.3%; }
+  #countdown .cd-sep { top: 71.2%; }
+  #countdown .cd-register { top: 79.4%; }
+  .cd-label { letter-spacing: .3em; padding-left: .3em; }
+}
+
+/* Portrait: 2x2 boxes filling the same band of the art */
+@media (max-aspect-ratio: 1/1) and (min-height: 480px) {
+  #countdown {
+    --gap: calc(var(--u) * 2);
+    --bw: min(42cqw, calc(var(--ih) * .2));
+    --bh: calc((var(--ih) * .199 - var(--gap)) / 2);
+  }
+  .cd-boxes { flex-wrap: wrap; width: calc(var(--bw) * 2 + var(--gap)); }
+  #countdown .cd-title { letter-spacing: .3em; padding-left: .3em; }
+  .cd-label { letter-spacing: .2em; padding-left: .2em; }
+  .cd-register { font-size: max(12px, calc(var(--u) * 2.6)); padding: 1.35em 1.9em 1.35em 2.05em; }
+}

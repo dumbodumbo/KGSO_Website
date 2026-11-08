@@ -1,0 +1,88 @@
+#intro {
+  position: fixed; inset: 0; z-index: 100;
+  overflow: hidden; pointer-events: auto;
+  container-type: size;
+}
+#intro.done { display: none; }
+/* After the reveal the logo floats over the live page; let input pass through */
+#intro.revealed { pointer-events: none; }
+html.intro-done #intro-black, html.intro-done #skip, html.intro-done #fx { display: none; }
+/* After intro completes, keep the art visible (GSAP owns opacity during first play). */
+html.intro-done #bg .bg-img { opacity: 1; }
+
+/* Pitch-black stage that hides #bg until the reveal */
+#intro-black { position: absolute; inset: 0; background: #000; }
+
+/*
+ * Hero = logo + countdown. Desktop and portrait screens: both are placed in
+ * background-image coordinates (--iy/--ih from style.css) so the countdown sits on the
+ * ghost boxes in the art. Otherwise (landscape phones, ultrawide, short windows): a centred stack.
+ */
+#hero {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding:
+    max(56px, calc(48px + env(safe-area-inset-top, 0px)))
+    max(16px, env(safe-area-inset-right, 0px))
+    max(28px, env(safe-area-inset-bottom, 0px))
+    max(16px, env(safe-area-inset-left, 0px));
+}
+#logo-wrap { display: flex; justify-content: center; }
+/* --lw = logo width; the artwork (letters + helmet) is 913 x 238 px */
+#logo { --lw: min(80cqw, calc(26cqh / .2607)); }
+
+@media (max-aspect-ratio: 2/1) and (min-height: 480px) {
+  #hero { display: block; padding: 0; }
+  /*
+   * Zero-height row centred in the band between the navbar (56px) and the countdown title
+   * (37% of the art); the logo fills ~92% of that band's height, capped by the screen width.
+   */
+  #logo-wrap {
+    position: absolute; left: 0; right: 0; height: 0;
+    top: calc((56px + var(--iy) + var(--ih) * .37) / 2);
+    align-items: center;
+  }
+  #logo { --lw: min(calc((var(--iy) + var(--ih) * .37 - 56px) * .92 / .2607), 92cqw); }
+}
+
+#logo {
+  position: relative; flex: none;
+  width: var(--lw); aspect-ratio: 913 / 238;
+  font-size: calc(var(--lw) * .2);   /* em unit for glow / pulse sizes */
+}
+/* boxes measured from the source artwork so the helmet docks exactly where it sits there */
+/* picture wrappers collapse so .letters / #helmet keep their absolute boxes */
+#logo > picture,
+#o-slot > picture { display: contents; }
+#logo .letters {
+  position: absolute; left: 0; top: 0; width: 72.180%; height: 98.739%;
+  display: block; user-select: none; will-change: transform, filter;
+}
+#o-slot {
+  position: absolute; display: block;
+  left: 73.494%; top: 1.261%; width: 26.506%; height: 98.739%;
+}
+#helmet {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: contain;
+  image-rendering: pixelated;
+  will-change: transform;
+  filter: drop-shadow(0 0 .02em #fff);
+}
+
+#pulse {
+  position: absolute; pointer-events: none; border-radius: 50%;
+  width: 130%; aspect-ratio: 1; left: 50%; top: 50%; margin: -65% 0 0 -65%; opacity: 0;
+  border: .03em solid #d9c7ff;
+  box-shadow: 0 0 .1em #b48cff, inset 0 0 .1em #b48cff;
+}
+
+#fx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+
+#skip {
+  position: absolute; right: clamp(12px, 3vw, 32px); bottom: clamp(12px, 3vw, 32px);
+  font: 700 .8rem 'Silkscreen', monospace; letter-spacing: .1em; text-transform: uppercase;
+  color: #efe6ff; background: #2a1560aa; border: 2px solid #b48cff;
+  padding: .6em 1em; cursor: pointer; z-index: 3;
+}
+#skip:hover, #skip:focus-visible { background: #6a3fd0; outline: none; }

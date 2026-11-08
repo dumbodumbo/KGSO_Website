@@ -1,0 +1,15 @@
+docs/
+*.plan.md
+ENGINEERING_*.md
+PERFORMANCE_*.md
+CROSS_DEVICE_*.md
+*.bak*
+*-src.*
+*-src-*
+assets/brand/logo-original.jpg
+node_modules/
+.DS_Store
+Thumbs.db
+*.tmp
+*.log
+.cursor/

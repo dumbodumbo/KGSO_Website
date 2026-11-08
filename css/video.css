@@ -1,0 +1,104 @@
+/*
+ * Highlights video in a pixel film-strip frame.
+ *   --fw frame width, --tilt frame rotation. The frame art is a 192 x 106 grid (one unit =
+ *   one art pixel); the orbit rings are canvases on the same grid, drawn by video.js.
+ */
+#video {
+  --fw: min(820px, 70vw, calc((100svh - 230px) * 1.811));
+  --tilt: -2.5deg;
+  gap: calc(var(--fw) * .07);
+  padding: 90px 0 70px;
+  overflow: hidden;
+}
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; padding: 0; border: 0;
+}
+#video h2.sr-only { padding: 0; border: 0; }
+
+.vid-stage { position: relative; width: var(--fw); aspect-ratio: 192 / 106; }
+.vid-reveal { position: absolute; inset: 0; }
+.vid-tilt { position: absolute; inset: 0; transform: rotate(var(--tilt)); }
+
+.vid-frame { position: absolute; inset: 0; z-index: 1; }
+.vid-art {
+  position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible;
+  filter: drop-shadow(0 0 calc(var(--fw) * .018) #8a5cf6aa);
+}
+.vid-screen {
+  position: absolute; overflow: hidden; background: #07030f;
+  left: 8.3333%; top: 7.5472%; width: 83.3333%; height: 84.9057%;
+}
+.vid-screen video { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.vid-rings { position: absolute; image-rendering: pixelated; pointer-events: none; }
+.vid-rings--back { z-index: 0; filter: drop-shadow(0 0 calc(var(--fw) * .008) #8a5cf6); }
+.vid-rings--front { z-index: 2; }
+
+/* Pixel controls (bottom-right of the screen) */
+.vid-ctrls {
+  position: absolute; right: 2.5%; bottom: 4%; z-index: 3;
+  display: flex; gap: calc(var(--fw) * .012);
+}
+.vid-btn {
+  --b: max(2px, calc(var(--fw) * .0035));
+  width: clamp(36px, calc(var(--fw) * .05), 44px); aspect-ratio: 1;
+  display: grid; place-items: center; padding: 0; cursor: pointer;
+  color: #efe6ff; background: #100628cc;
+  border: var(--b) solid #b993ff;
+  box-shadow: var(--b) var(--b) 0 #4a22a6;
+  opacity: .82; transition: opacity .2s, background .2s;
+}
+.vid-btn:hover, .vid-btn:focus-visible { opacity: 1; background: #6a3fd0; outline: none; }
+.vid-btn:active { transform: translate(var(--b), var(--b)); box-shadow: none; opacity: 1; background: #6a3fd0; }
+.vid-btn svg { width: 46%; height: auto; fill: currentColor; }
+.vid-play .i-play, .vid-play.is-paused .i-pause,
+.vid-mute .i-muted, .vid-mute.is-muted .i-sound { display: none; }
+.vid-play.is-paused .i-play, .vid-mute.is-muted .i-muted { display: block; }
+
+/* 4-point pixel sparkles */
+.vid-spark {
+  position: absolute; left: var(--x); top: var(--y); width: var(--s); aspect-ratio: 1;
+  transform: translate(-50%, -50%); pointer-events: none; image-rendering: pixelated;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Cpath fill='%23fff' d='M4 0h1v9H4zM0 4h9v1H0zM3 3h3v3H3z'/%3E%3C/svg%3E") center / contain no-repeat;
+  filter: drop-shadow(0 0 calc(var(--fw) * .008) #d9c7ff);
+  animation: vid-twinkle 2.6s steps(1) var(--d) infinite;
+}
+.vid-spark--sm { opacity: .85; }
+@keyframes vid-twinkle {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  40% { transform: translate(-50%, -50%) scale(.6); }
+  55% { transform: translate(-50%, -50%) scale(.85); }
+}
+html.reduced-motion .vid-spark { animation: none; }
+
+/* "Watch the full video": thin line with centred letter-spaced pixel text */
+.vid-cta {
+  display: flex; align-items: center; gap: 1.6em;
+  width: calc(var(--fw) * .78);
+  font: .62rem/1.4 'Press Start 2P', 'Silkscreen', monospace;
+  font-size: clamp(.5rem, calc(var(--fw) * .0125), .72rem);
+  letter-spacing: .35em; text-transform: uppercase; white-space: nowrap;
+  color: #cdb4ff; text-decoration: none;
+  text-shadow: 0 0 .8em #8a5cf688;
+  transition: color .2s, text-shadow .2s;
+}
+.vid-cta span { padding-left: .35em; }
+.vid-cta::before, .vid-cta::after {
+  content: ''; flex: 1; height: 2px;
+  background: linear-gradient(90deg, #7a4fe000, #9d73ff);
+}
+.vid-cta::after { background: linear-gradient(90deg, #9d73ff, #7a4fe000); }
+.vid-cta:hover, .vid-cta:focus-visible { color: #fff; text-shadow: 0 0 .8em #b48cff; outline: none; }
+
+@media (max-width: 700px) {
+  #video { --fw: min(86vw, calc((100svh - 200px) * 1.811)); --tilt: -1.2deg; padding: 80px 0 60px; }
+  .vid-btn { width: 44px; }
+  .vid-cta {
+    width: 92vw; gap: 1em; letter-spacing: .25em; font-size: .5rem;
+    min-height: 44px; justify-content: center;
+  }
+  .vid-cta span { padding-left: .25em; }
+  .vid-spark--sm { display: none; }
+}

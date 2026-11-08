@@ -1,0 +1,162 @@
+/*
+ * Content sections below the video (About, Scale & Legacy, Modules): shared section
+ * heading, chamfered pixel frame, panels and stat tiles. Carousel styles: modules.css.
+ * Inter is loaded from the page <head> Google Fonts link (not via @import).
+ */
+.kx-sec {
+  position: relative; gap: clamp(28px, 5vh, 56px);
+  padding: clamp(90px, 13vh, 130px) clamp(16px, 4vw, 48px) clamp(60px, 10vh, 110px);
+  border-top: 0;
+}
+
+/* ---------- Section heading: sparkle-tipped lines around a pixel title ---------- */
+.kx-head { width: min(960px, 100%); text-align: center; }
+.kx-title-row { display: flex; align-items: center; justify-content: center; gap: clamp(10px, 1.6vw, 22px); }
+.kx-line {
+  flex: 1 1 0; min-width: 12px; max-width: 260px; height: 2px;
+  background: linear-gradient(90deg, #9d73ff00, #b993ff);
+  transform-origin: 100% 50%;
+}
+.kx-line--r { background: linear-gradient(90deg, #b993ff, #9d73ff00); transform-origin: 0 50%; }
+.kx-star, .kx-spark {
+  flex: none; width: clamp(14px, 1.7vw, 22px); aspect-ratio: 1; image-rendering: pixelated;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Cpath fill='%23fff' d='M4 0h1v9H4zM0 4h9v1H0zM3 3h3v3H3z'/%3E%3C/svg%3E") center / contain no-repeat;
+  filter: drop-shadow(0 0 5px #d9c7ff);
+  animation: kx-twinkle 2.8s steps(1) var(--d, 0s) infinite;
+}
+main .kx-title {
+  margin: 0; padding: 0; border: 0; background: none;
+  font: 400 clamp(1rem, 4.4vw, 2.7rem)/1.25 'Press Start 2P', 'Silkscreen', monospace;
+  letter-spacing: .06em; color: #fff; white-space: nowrap;
+  text-shadow: 0 .09em 0 #6a3fd0, 0 0 .45em #b48cffaa;
+}
+.kx-sub {
+  margin: 1.1em 0 0; padding-left: .45em;
+  font: 400 clamp(.62rem, 1.15vw, .88rem)/1.4 'Silkscreen', 'Courier New', monospace;
+  letter-spacing: .45em; text-transform: uppercase; color: #d9c7ff;
+  text-shadow: 0 0 .8em #8a5cf688;
+}
+@keyframes kx-twinkle {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  40% { transform: scale(.55); opacity: .75; }
+  55% { transform: scale(.85); }
+}
+html.reduced-motion .kx-star, html.reduced-motion .kx-spark { animation: none; }
+
+/* loose sparkles placed around a block */
+.kx-spark { position: absolute; left: var(--x); top: var(--y); width: var(--s, 14px); pointer-events: none; }
+
+/*
+ * ---------- Chamfered pixel frame ----------
+ * <span class="kx-bg"><i></i><b></b><b></b></span> inside a positioned, isolated box.
+ *   ::before translucent fill, ::after outer rim ring, <i> thin inner ring, <b> corner stripes.
+ *   --c chamfer of the top-left/bottom-right corners, --c2 of the other two, --b rim width.
+ */
+.kx-bg {
+  --c: 22px; --c2: 9px; --b: 2px; --io: 7px;
+  --fill: linear-gradient(160deg, #1d0d47d9, #0c0522e6 60%, #170a3be0);
+  --rim: linear-gradient(160deg, #e2d4ff, #a67cff 35%, #7a4fe0 70%, #c9a8ff);
+  position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  filter: drop-shadow(0 0 var(--glow, 10px) #8a5cf6aa);
+}
+.kx-bg::before, .kx-bg::after, .kx-bg > i, .kx-bg > b { content: ''; position: absolute; }
+.kx-bg::before {
+  inset: 0; background: var(--fill);
+  clip-path: polygon(var(--c) 0, calc(100% - var(--c2)) 0, 100% var(--c2), 100% calc(100% - var(--c)),
+    calc(100% - var(--c)) 100%, var(--c2) 100%, 0 calc(100% - var(--c2)), 0 var(--c));
+}
+.kx-bg::after, .kx-bg > i {
+  --k1: var(--c); --k2: var(--c2); --w: var(--b);
+  inset: 0; background: var(--rim);
+  clip-path: polygon(evenodd,
+    var(--k1) 0, calc(100% - var(--k2)) 0, 100% var(--k2), 100% calc(100% - var(--k1)),
+    calc(100% - var(--k1)) 100%, var(--k2) 100%, 0 calc(100% - var(--k2)), 0 var(--k1), var(--k1) 0,
+    calc(var(--k1) + var(--w) * .414) var(--w), calc(var(--w)) calc(var(--k1) + var(--w) * .414),
+    var(--w) calc(100% - var(--k2) - var(--w) * .414), calc(var(--k2) + var(--w) * .414) calc(100% - var(--w)),
+    calc(100% - var(--k1) - var(--w) * .414) calc(100% - var(--w)), calc(100% - var(--w)) calc(100% - var(--k1) - var(--w) * .414),
+    calc(100% - var(--w)) calc(var(--k2) + var(--w) * .414), calc(100% - var(--k2) - var(--w) * .414) var(--w),
+    calc(var(--k1) + var(--w) * .414) var(--w), var(--k1) 0);
+}
+.kx-bg > i {
+  --k1: calc(var(--c) - var(--io) * .586); --k2: max(2px, calc(var(--c2) - var(--io) * .586)); --w: 1px;
+  inset: var(--io); background: #8f66f0; opacity: .55;
+}
+/* diagonal stripe accents in the top-left and bottom-right corners */
+.kx-bg > b {
+  top: calc(var(--b) + 5px); left: calc(var(--c) + 6px);
+  width: clamp(36px, 16%, 110px); height: max(5px, calc(var(--c) * .3));
+  background: repeating-linear-gradient(115deg, #a67cff 0 4px, #a67cff00 4px 9px);
+  clip-path: polygon(8% 0, 100% 0, 92% 100%, 0 100%);
+  opacity: .8;
+}
+.kx-bg > b + b { top: auto; left: auto; bottom: calc(var(--b) + 5px); right: calc(var(--c) + 6px); }
+
+/* ---------- Text panel ---------- */
+.kx-panel-wrap { position: relative; width: min(860px, 100%); }
+.kx-panel {
+  position: relative; isolation: isolate;
+  padding: clamp(30px, 4.4vw, 56px) clamp(22px, 5vw, 64px);
+}
+.kx-kicker {
+  display: flex; align-items: center; gap: .9em; margin: 0 0 1.3em;
+  font: 400 clamp(.62rem, 1.05vw, .8rem)/1.3 'Press Start 2P', 'Silkscreen', monospace;
+  letter-spacing: .14em; text-transform: uppercase; color: #fff;
+  text-shadow: 0 .12em 0 #6a3fd0;
+}
+.kx-kicker::before {
+  content: ''; width: .9em; aspect-ratio: 1; flex: none; background: #b993ff;
+  box-shadow: 0 0 10px #a67cff;
+  clip-path: polygon(30% 0, 70% 0, 70% 30%, 100% 30%, 100% 70%, 70% 70%, 70% 100%, 30% 100%, 30% 70%, 0 70%, 0 30%, 30% 30%);
+}
+.kx-kicker::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, #a67cff88, #a67cff00); }
+.kx-text {
+  margin: 0; font: 400 clamp(1rem, 1.3vw, 1.16rem)/1.8 'Inter', 'Segoe UI', system-ui, sans-serif;
+  color: #e6dcff; letter-spacing: .005em; text-wrap: pretty;
+}
+.kx-text strong { font-weight: 600; color: #fff; text-shadow: 0 0 .8em #a67cff88; }
+
+/* ---------- Scale & Legacy: stat tiles ---------- */
+.st-grid {
+  position: relative; width: min(1040px, 100%);
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(12px, 1.8vw, 22px);
+}
+.st-tile {
+  position: relative; isolation: isolate; container-type: inline-size;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+  min-height: clamp(150px, 15vw, 196px); padding: 26px 14px 22px;
+  transition: translate .3s cubic-bezier(.2, .8, .2, 1);
+}
+.st-tile .kx-bg { --c: 16px; --c2: 6px; --io: 6px; transition: filter .3s; }
+.st-tile .kx-bg > b { width: 30%; }
+.st-tile .kx-bg > b + b { display: none; }
+.st-tile:hover { translate: 0 -6px; }
+.st-tile:hover .kx-bg { filter: drop-shadow(0 0 18px #a67cffdd) drop-shadow(0 6px 0 #2a0f6e); }
+.st-val {
+  font: 400 min(2.6rem, 19cqi)/1 'Press Start 2P', 'Silkscreen', monospace; color: #fff;
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+  text-shadow: .08em .08em 0 #6a3fd0, 0 0 .4em #b48cffaa;
+}
+.st-val small { font-size: .45em; margin-left: .12em; vertical-align: .9em; }
+.st-val--word { font-size: min(1.25rem, 8.6cqi); line-height: 1.4; }
+.st-label {
+  margin-top: 1.1em; padding-left: .25em;
+  font: 700 clamp(.6rem, 7cqi, .82rem)/1.35 'Silkscreen', 'Courier New', monospace;
+  letter-spacing: .25em; text-transform: uppercase; color: #efe6ff;
+}
+.st-note {
+  margin-top: .6em; padding-left: .18em;
+  font: 400 clamp(.5rem, 5.6cqi, .66rem)/1.5 'Silkscreen', 'Courier New', monospace;
+  letter-spacing: .18em; text-transform: uppercase; color: #b9a2ef;
+}
+.st-tile .kx-spark { --s: 10px; }
+
+@media (max-width: 760px) {
+  .st-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .st-tile { min-height: 140px; padding: 22px 10px 18px; }
+  .kx-line { max-width: 70px; }
+}
+@media (max-width: 420px) {
+  .kx-sub { letter-spacing: .3em; padding-left: .3em; }
+  .kx-title-row { gap: 8px; }
+  main .kx-title { white-space: normal; text-wrap: balance; }
+}

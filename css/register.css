@@ -1,0 +1,169 @@
+/*
+ * Registration popup (opened by js/register.js). Panel, cards and close button share the
+ * stepped pixel shape of the "Register now!" button: ::before = frame, ::after = fill inset
+ * by one frame pixel --b; --c is the corner step.
+ */
+html.reg-lock { overflow: hidden; }
+
+.reg-modal {
+  position: fixed; inset: 0; z-index: 300;
+  display: grid; place-items: center; padding: 16px;
+  overscroll-behavior: contain;
+}
+.reg-modal[hidden] { display: none; }
+
+.reg-backdrop {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 45%, #2a126099, #07020fe0 72%);
+  -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px);
+}
+
+.reg-panel, .reg-card, .reg-close, .reg-toast { isolation: isolate; }
+.reg-panel::before, .reg-panel::after,
+.reg-card::before, .reg-card::after,
+.reg-close::before, .reg-close::after,
+.reg-toast::before, .reg-toast::after {
+  content: ''; position: absolute; z-index: -1; pointer-events: none;
+  clip-path: polygon(calc(var(--c) * 2) 0, calc(100% - var(--c) * 2) 0, calc(100% - var(--c) * 2) var(--c),
+    calc(100% - var(--c)) var(--c), calc(100% - var(--c)) calc(var(--c) * 2), 100% calc(var(--c) * 2),
+    100% calc(100% - var(--c) * 2), calc(100% - var(--c)) calc(100% - var(--c) * 2),
+    calc(100% - var(--c)) calc(100% - var(--c)), calc(100% - var(--c) * 2) calc(100% - var(--c)),
+    calc(100% - var(--c) * 2) 100%, calc(var(--c) * 2) 100%, calc(var(--c) * 2) calc(100% - var(--c)),
+    var(--c) calc(100% - var(--c)), var(--c) calc(100% - var(--c) * 2), 0 calc(100% - var(--c) * 2),
+    0 calc(var(--c) * 2), var(--c) calc(var(--c) * 2), var(--c) var(--c), calc(var(--c) * 2) var(--c));
+}
+.reg-panel::before, .reg-card::before, .reg-close::before, .reg-toast::before { inset: 0; background: var(--rim); }
+.reg-panel::after, .reg-card::after, .reg-close::after, .reg-toast::after { inset: var(--b); background: var(--fill); }
+
+/* scattered pixel stars, tiled inside the panel and card fills */
+.reg-panel, .reg-card {
+  --stars: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='96' shape-rendering='crispEdges'%3E%3Cg fill='%23fff'%3E%3Crect x='14' y='12' width='2' height='2' opacity='.7'/%3E%3Crect x='86' y='22' width='2' height='2' opacity='.45'/%3E%3Crect x='52' y='58' width='2' height='2' opacity='.6'/%3E%3Crect x='104' y='74' width='2' height='2' opacity='.35'/%3E%3Crect x='30' y='84' width='2' height='2' opacity='.4'/%3E%3C/g%3E%3Cpath fill='%23d9c7ff' opacity='.55' d='M70 4h2v6h-2zM68 6h6v2h-6z'/%3E%3C/svg%3E");
+}
+
+.reg-panel {
+  --b: 4px; --c: 6px;
+  --rim: #cdb0ff;
+  --fill: var(--stars) 0 0 / 120px 96px, radial-gradient(ellipse at 50% 0, #4a23a855, #4a23a800 65%),
+    linear-gradient(#1d0c4ef5, #0f0627f8);
+  --u: clamp(5px, 1.3vw, 8px); --px: 4px; --sep: min(70%, 360px);
+  position: relative; width: min(660px, 100%); max-height: calc(100svh - 32px);
+  display: flex; flex-direction: column;
+  color: #efe6ff; text-align: center; text-transform: uppercase;
+  font-family: 'Silkscreen', 'Courier New', monospace;
+  filter: drop-shadow(0 0 22px #8a5cf6aa);
+  outline: none;
+}
+.reg-body {
+  overflow: auto; overscroll-behavior: contain;
+  padding: clamp(30px, 5vw, 46px) clamp(18px, 5vw, 46px) clamp(22px, 4vw, 34px);
+}
+.reg-body p { margin: 0; }
+
+.reg-kicker {
+  font-size: .72rem; letter-spacing: .45em; padding-left: .45em; color: #a984ff;
+  text-shadow: 0 0 8px #7d5bd088;
+}
+.reg-title {
+  margin: .7em 0 0;
+  font: 400 clamp(.95rem, 3.4vw, 1.55rem)/1.45 'Press Start 2P', 'Silkscreen', monospace;
+  letter-spacing: .08em; color: #fff;
+  text-shadow: 3px 3px 0 #6a3fd0, 0 0 18px #b48cffaa;
+}
+.reg-panel .cd-sep { margin: clamp(14px, 2.6vw, 20px) auto; }
+.reg-desc { font-size: .8rem; letter-spacing: .1em; line-height: 1.6; color: #d9c7ff; text-transform: none; }
+
+.reg-options {
+  display: grid; grid-template-columns: 1fr 1fr; gap: clamp(12px, 2.6vw, 22px);
+  margin: clamp(18px, 3.4vw, 28px) 0 clamp(14px, 2.6vw, 20px);
+}
+.reg-card {
+  --b: 3px; --c: 4px;
+  --rim: #9d73ff;
+  --fill: var(--stars) 30px 10px / 120px 96px, linear-gradient(#2b1466f0, #150838f0);
+  position: relative; display: flex; flex-direction: column; align-items: center; gap: 10px;
+  padding: clamp(20px, 3.6vw, 28px) 14px clamp(16px, 3vw, 22px);
+  color: #efe6ff; text-decoration: none;
+  filter: drop-shadow(0 4px 0 #2a0f6e) drop-shadow(0 0 10px #8a5cf655);
+  transition: translate .16s steps(2), filter .2s;
+}
+.reg-icon { width: clamp(40px, 7vw, 56px); height: auto; image-rendering: pixelated; filter: drop-shadow(0 0 6px #b48cff88); }
+.reg-name {
+  margin-top: 4px;
+  font: 400 clamp(.8rem, 2.4vw, 1.05rem)/1.2 'Press Start 2P', 'Silkscreen', monospace;
+  letter-spacing: .1em; padding-left: .1em; color: #fff;
+  text-shadow: 2px 2px 0 #6a3fd0;
+}
+.reg-sub { font-size: .78rem; letter-spacing: .14em; color: #cdb4ff; }
+.reg-go {
+  display: inline-flex; align-items: center; gap: .6em; margin-top: 4px;
+  font-size: .62rem; letter-spacing: .2em; color: #a984ff;
+  transition: color .2s;
+}
+.reg-go svg { width: .7em; height: auto; fill: currentColor; transition: translate .2s steps(2); }
+
+.reg-card:hover, .reg-card:focus-visible {
+  --rim: #fff;
+  --fill: var(--stars) 30px 10px / 120px 96px, radial-gradient(ellipse at 50% 30%, #8d5cff66, #8d5cff00 70%),
+    linear-gradient(#4a23a8f0, #23105ef0);
+  translate: 0 -4px;
+  filter: drop-shadow(0 8px 0 #2a0f6e) drop-shadow(0 0 18px #b48cff);
+}
+.reg-card:hover .reg-icon, .reg-card:focus-visible .reg-icon { animation: reg-bob .8s steps(2) infinite; }
+.reg-card:hover .reg-go, .reg-card:focus-visible .reg-go { color: #fff; }
+.reg-card:hover .reg-go svg, .reg-card:focus-visible .reg-go svg { translate: 4px 0; }
+.reg-card:active {
+  --rim: #fff;
+  --fill: var(--stars) 30px 10px / 120px 96px, radial-gradient(ellipse at 50% 30%, #8d5cff66, #8d5cff00 70%),
+    linear-gradient(#4a23a8f0, #23105ef0);
+  translate: 0 2px;
+  filter: drop-shadow(0 0 0 #2a0f6e) drop-shadow(0 0 14px #b48cff);
+}
+.reg-card:active .reg-go { color: #fff; }
+.reg-card:focus-visible { outline: 3px solid #fff; outline-offset: 5px; }
+
+.reg-note { font-size: .6rem; letter-spacing: .2em; color: #8f74c9; }
+
+.reg-close {
+  --b: 2px; --c: 2px;
+  --rim: #b993ff; --fill: #100628;
+  position: absolute; z-index: 1; top: 12px; right: 12px;
+  width: 38px; height: 38px; padding: 0; border: 0; background: none;
+  display: grid; place-items: center; cursor: pointer; color: #efe6ff;
+  transition: translate .12s steps(2);
+}
+.reg-close svg { width: 14px; height: 14px; fill: currentColor; }
+.reg-close:hover, .reg-close:focus-visible { --rim: #fff; --fill: #6a3fd0; color: #fff; }
+.reg-close:active { translate: 0 2px; }
+.reg-close:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+
+@keyframes reg-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+/* "Form link coming soon" toast */
+.reg-toast {
+  --b: 2px; --c: 3px;
+  --rim: #cdb0ff; --fill: #2a1560;
+  position: fixed; z-index: 310; left: 50%; bottom: clamp(20px, 5vh, 40px);
+  padding: 14px 20px;
+  font: 400 .62rem/1.4 'Press Start 2P', 'Silkscreen', monospace;
+  letter-spacing: .1em; text-transform: uppercase; color: #fff; white-space: nowrap;
+  filter: drop-shadow(0 0 14px #8a5cf6cc);
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transform: translate(-50%, 12px);
+  transition: opacity .25s, transform .25s, visibility 0s .25s;
+}
+.reg-toast:empty { display: none; }
+.reg-toast.is-on { opacity: 1; visibility: visible; transform: translate(-50%, 0); transition: opacity .25s, transform .25s; }
+
+@media (max-width: 520px) {
+  .reg-options { grid-template-columns: 1fr; }
+  .reg-card { gap: 7px; padding: 16px 12px 14px; }
+  .reg-icon { width: 36px; }
+  .reg-kicker { font-size: .6rem; }
+  .reg-desc { font-size: .72rem; }
+}
+
+html.reduced-motion .reg-card, html.reduced-motion .reg-close, html.reduced-motion .reg-toast { transition: none; }
+html.reduced-motion .reg-card:hover .reg-icon, html.reduced-motion .reg-card:focus-visible .reg-icon { animation: none; }
