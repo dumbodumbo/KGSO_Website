@@ -104,14 +104,15 @@
   min-height: 0;
   display: flex;
   align-items: flex-end;
-  justify-content: flex-start;
+  justify-content: center;
+  text-align: center;
   padding: clamp(28px, 5vh, 48px) clamp(16px, 4vw, 48px) calc(clamp(20px, 4vh, 40px) + env(safe-area-inset-bottom, 0px));
-  padding-left: calc(clamp(16px, 4vw, 48px) + env(safe-area-inset-left, 0px));
   border-top: 1px dashed #b48cff33;
 }
 .ct-credit {
-  margin: 0;
-  text-align: left;
+  margin: 0 auto;
+  text-align: center;
+  padding-left: .18em;
   max-width: 100%;
   overflow-wrap: anywhere;
   font: 400 clamp(.55rem, 1.05vw, .72rem)/1.5 'Silkscreen', 'Courier New', monospace;
