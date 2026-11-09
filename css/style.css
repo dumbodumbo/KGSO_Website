@@ -57,12 +57,12 @@ html.nav-open #intro { z-index: 90; }
 /* Scrim on #page (not #navbar) so backdrop-filter does not clip fixed coverage */
 html.nav-open #page::before {
   content: '';
-  position: fixed; inset: 0; z-index: 4;
+  position: fixed; inset: 0; z-index: 999;
   background: #07020f;
   pointer-events: auto;
 }
 #navbar {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 5;
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000; /* must outrank all in-page z-indexes (modules arrows 20, FAQ cards up to 40) */
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
   padding:
     max(14px, env(safe-area-inset-top, 0px))
