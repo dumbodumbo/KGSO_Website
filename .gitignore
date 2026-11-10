@@ -1,8 +1,5 @@
-docs/
 *.plan.md
-ENGINEERING_*.md
-PERFORMANCE_*.md
-CROSS_DEVICE_*.md
+# Source backups / originals (kept locally, not published)
 *.bak*
 *-src.*
 *-src-*
