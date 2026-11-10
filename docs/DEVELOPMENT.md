@@ -55,7 +55,7 @@ Each file has its own counter; counters are not global. Do not rename files just
 - Page-wide base, navbar, background, companion helmet: `css/style.css`.
 - Section-specific styles: that section's CSS file.
 - Images, video: `assets/` (see [ASSETS.md](ASSETS.md)). Reference with root-relative paths from `index.html` and `../assets/...` from CSS.
-- Docs: `docs/`; diagram sources: `docs/architecture/`; superseded notes: `docs/archive/`.
+- Docs: `docs/`; diagram sources: `docs/architecture/`.
 
 ## Editing diagrams
 

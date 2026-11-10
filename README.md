@@ -25,7 +25,7 @@ assets/
   video/            highlights mp4 + poster
   legacy/<year>/    2024, 2025, 2026 gallery stills (webp + jpg)
 scripts/            verify-refs.js (reference checker)
-docs/               architecture, development, assets, deployment (+ archive/)
+docs/               architecture, development, assets, deployment 
 robots.txt, sitemap.xml
 ```
 
@@ -62,7 +62,6 @@ After changing a file, bump its `?v=N` in `index.html` (see [docs/DEVELOPMENT.md
 - [Development guide](docs/DEVELOPMENT.md): conventions, cache busting, adding a section
 - [Assets](docs/ASSETS.md): inventory, large files, naming
 - [Deployment](docs/DEPLOYMENT.md): Vercel notes, pre-release checklist, headers
-- [Archived audit notes](docs/archive/ENGINEERING_AUDIT.md): [performance](docs/archive/PERFORMANCE_OPTIMIZATION.md), [cross-device](docs/archive/CROSS_DEVICE_AUDIT.md) (point-in-time, partly outdated)
 
 ## Development guidelines
 

@@ -18,5 +18,4 @@ flowchart LR
   assets --> legacy["legacy/2024, 2025, 2026 gallery stills"]
   docs --> arch["ARCHITECTURE.md, DEVELOPMENT.md, ASSETS.md, DEPLOYMENT.md"]
   docs --> diagrams["architecture/ diagram sources"]
-  docs --> archive["archive/ older audit notes"]
 ```
