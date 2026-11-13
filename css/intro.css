@@ -28,8 +28,8 @@ html.intro-done #bg .bg-img { opacity: 1; }
     max(16px, env(safe-area-inset-left, 0px));
 }
 #logo-wrap { display: flex; justify-content: center; }
-/* --lw = logo width; the artwork (letters + helmet) is 913 x 238 px */
-#logo { --lw: min(80cqw, calc(26cqh / .2607)); }
+/* --lw = logo width; the artwork (letters + helmet) is 4396 x 1176 px */
+#logo { --lw: min(80cqw, calc(26cqh / .2675)); }
 
 @media (max-aspect-ratio: 2/1) and (min-height: 480px) {
   #hero { display: block; padding: 0; }
@@ -42,12 +42,12 @@ html.intro-done #bg .bg-img { opacity: 1; }
     top: calc((56px + var(--iy) + var(--ih) * .37) / 2);
     align-items: center;
   }
-  #logo { --lw: min(calc((var(--iy) + var(--ih) * .37 - 56px) * .92 / .2607), 92cqw); }
+  #logo { --lw: min(calc((var(--iy) + var(--ih) * .37 - 56px) * .92 / .2675), 92cqw); }
 }
 
 #logo {
   position: relative; flex: none;
-  width: var(--lw); aspect-ratio: 913 / 238;
+  width: var(--lw); aspect-ratio: 4396 / 1176;
   font-size: calc(var(--lw) * .2);   /* em unit for glow / pulse sizes */
 }
 /* boxes measured from the source artwork so the helmet docks exactly where it sits there */
@@ -55,12 +55,12 @@ html.intro-done #bg .bg-img { opacity: 1; }
 #logo > picture,
 #o-slot > picture { display: contents; }
 #logo .letters {
-  position: absolute; left: 0; top: 0; width: 72.180%; height: 98.739%;
+  position: absolute; left: 0; top: 2.041%; width: 71.611%; height: 93.878%;
   display: block; user-select: none; will-change: transform, filter;
 }
 #o-slot {
   position: absolute; display: block;
-  left: 73.494%; top: 1.261%; width: 26.506%; height: 98.739%;
+  left: 72.702%; top: 0; width: 27.298%; height: 100%;
 }
 #helmet {
   position: absolute; inset: 0; width: 100%; height: 100%;

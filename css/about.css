@@ -113,6 +113,7 @@ html.reduced-motion .kx-star, html.reduced-motion .kx-spark { animation: none; }
   margin: 0; font: 400 clamp(1rem, 1.3vw, 1.16rem)/1.8 'Inter', 'Segoe UI', system-ui, sans-serif;
   color: #e6dcff; letter-spacing: .005em; text-wrap: pretty;
 }
+.kx-text + .kx-text { margin-top: 1em; }
 .kx-text strong { font-weight: 600; color: #fff; text-shadow: 0 0 .8em #a67cff88; }
 
 /* ---------- Scale & Legacy: stat tiles ---------- */

@@ -10,49 +10,34 @@
   var hasGsap = !!(window.gsap && window.ScrollTrigger);
   if (hasGsap) gsap.registerPlugin(ScrollTrigger);
 
-  /* ---------- Module data + line-art icons (64 x 64, 2px strokes) ---------- */
+  /* ---------- Module data: 12 x 12 pixel icons (from the KGSO XIII invite), alphabetical ---------- */
   var MODULES = [
-    { name: 'Astronomy',
-      icon: '<circle cx="47" cy="15" r="6"/><ellipse cx="47" cy="15" rx="11" ry="3.5" transform="rotate(-20 47 15)"/>' +
-        '<g transform="rotate(-28 26 34)"><rect x="9" y="29.5" width="30" height="9" rx="1.5"/><rect x="39" y="27.5" width="6" height="13" rx="1.5"/><rect x="4" y="31.5" width="5" height="5" rx="1"/></g>' +
-        '<path d="M26 39 17 57M26 39l9 18M26 39v18"/><path d="M10 10v4M8 12h4M56 40v4M54 42h4"/>' },
-    { name: 'Biology',
-      icon: '<path d="M22 5c0 14 20 13 20 27S22 45 22 59"/><path d="M42 5c0 14-20 13-20 27s20 13 20 27"/>' +
-        '<path d="M23 10h18M26 16h12M26 26h12M23 32h18M26 38h12M26 48h12M23 54h18"/>' },
-    { name: 'Chemistry',
-      icon: '<path d="M25 6h14M28 6v17L14 50a4.5 4.5 0 0 0 4 7h28a4.5 4.5 0 0 0 4-7L36 23V6"/>' +
-        '<path d="M19.5 40c4-2 8 2 12.5 0s8.5-2 12.5 0"/><circle cx="27" cy="49" r="2.2"/><circle cx="37" cy="46" r="1.6"/><circle cx="32" cy="32" r="1.6"/><circle cx="34" cy="15" r="1.2"/>' },
-    { name: 'Physics',
-      icon: '<ellipse cx="32" cy="32" rx="27" ry="10"/><ellipse cx="32" cy="32" rx="27" ry="10" transform="rotate(60 32 32)"/>' +
-        '<ellipse cx="32" cy="32" rx="27" ry="10" transform="rotate(120 32 32)"/><circle cx="32" cy="32" r="3.5" fill="#fff"/><circle cx="59" cy="32" r="2" fill="#fff"/>' },
-    { name: 'Computer Science',
-      icon: '<rect x="5" y="9" width="54" height="36" rx="3"/><path d="M5 38h54M24 57h16M32 45v12"/>' +
-        '<path d="M24 18l-7 6 7 6M40 18l7 6-7 6M35 15l-6 18"/>' },
-    { name: 'Math',
-      icon: '<path d="M27 8H9l10 12L9 32h18"/><path d="M41 20h14M48 13v14"/><path d="M9 46h16M9 53h16"/>' +
-        '<path d="M35 42h22M41 42v15M51 42v12c0 2.5 1.5 3.5 4 3"/>' },
-    { name: 'Logic',
-      icon: '<path d="M10 22h11a5.5 5.5 0 1 1 11 0h11v11a5.5 5.5 0 1 1 0 11v11H32a5.5 5.5 0 1 0-11 0H10V44a5.5 5.5 0 1 0 0-11z"/>' +
-        '<path d="M51 8l1.6 3.4 3.4 1.6-3.4 1.6L51 18l-1.6-3.4L46 13l3.4-1.6z"/>' },
-    { name: 'Crime',
-      icon: '<circle cx="26" cy="26" r="18"/><path d="M39 39l5 5"/><rect x="45.5" y="39" width="8" height="22" rx="3" transform="rotate(-45 49.5 50)"/>' +
-        '<path d="M17 30c0-7 4-12 9-12s9 4 9 10M21 33c0-6 2-10 5-10s5 3 5 7v6M26 29v9M35 32c0 3-.5 5-1.5 7M15 23c2-4 6-8 11-8"/>' },
-    { name: 'Psychology',
-      icon: '<path d="M22 59V47c-6-4-11-11-11-20C11 15 20 6 32 6c11 0 19 8 20 18 0 3 1 5 3 8l3 5h-5v7c0 3-2 5-5 5h-6v10"/>' +
-        '<path d="M25 30c-2.5 0-4-2-4-4.5s2-4.5 4.5-4.5c.5-3 3-5 6-5 2.5 0 4.5 1.5 5.5 3.5 3 0 5.5 2.5 5.5 5.5s-2 5-5 5.5c-.5 2.5-2.5 4-5 4-1.5 0-3-.5-4-1.5-1 1-2 1.5-3.5 1.5z"/><path d="M31 25v8M27 26c1.5 0 4 1 4 3"/>' },
-    { name: 'Gaming',
-      icon: '<path d="M20 20h24c8 0 12 6 14 16l1.5 9c1 6.5-6 9.5-10 5l-6-7H20.5l-6 7c-4 4.5-11 1.5-10-5L6 36c2-10 6-16 14-16z"/>' +
-        '<path d="M19 27v11M13.5 32.5h11"/><circle cx="43" cy="29" r="2.2"/><circle cx="49.5" cy="35" r="2.2"/><path d="M28 14c0-4 8-4 8-8"/>' },
-    { name: 'Fandom',
-      icon: '<path d="M32 25c-6-4-14-5-24-4v31c10-1 18 0 24 4 6-4 14-5 24-4V21c-10-1-18 0-24 4zM32 25v31"/>' +
-        '<path d="M32 3l2.1 4.3 4.7.7-3.4 3.3.8 4.7-4.2-2.2-4.2 2.2.8-4.7-3.4-3.3 4.7-.7z"/><path d="M14 31c4-.5 8 0 12 2M14 38c4-.5 8 0 12 2M38 33c4-2 8-2.5 12-2M38 40c4-2 8-2.5 12-2"/>' },
-    { name: 'Engineering & Innovation',
-      icon: '<path d="M24 44c0-6-9-9-9-20a17 17 0 0 1 34 0c0 11-9 14-9 20z"/><path d="M25 50h14M27 56h10"/>' +
-        '<circle cx="32" cy="24" r="5"/><path d="M32 14.5v3.5M32 30v3.5M22.5 24H26M38 24h3.5M25.3 17.3l2.5 2.5M36.2 28.2l2.5 2.5M25.3 30.7l2.5-2.5M36.2 19.8l2.5-2.5"/>' },
-    { name: 'Robotics', badge: 'NEW EDITION',
-      icon: '<path d="M8 57h30M13 57v-5h20v5"/><rect x="21" y="42" width="29" height="7" rx="3.5" transform="rotate(-67.8 24.5 45.5)"/>' +
-        '<rect x="35" y="15" width="19" height="7" rx="3.5" transform="rotate(26.6 35 18.5)"/><circle cx="24.5" cy="45.5" r="4" fill="#160a36"/>' +
-        '<circle cx="35" cy="18.5" r="4" fill="#160a36"/><circle cx="51" cy="26.5" r="3" fill="#160a36"/><path d="M51 29.5v4M45 33.5h12M45 33.5v5l2.5 3.5M57 33.5v5l-2.5 3.5"/>' }
+    { name: 'Astronomy', color: '#B79CFF',
+      icon: '<path fill="#F0C987" d="M4 2h1v1h-1zM5 2h1v1h-1zM6 2h1v1h-1zM7 2h1v1h-1zM4 3h1v1h-1zM5 3h1v1h-1zM6 3h1v1h-1zM7 3h1v1h-1zM8 3h1v1h-1zM3 4h1v1h-1zM4 4h1v1h-1zM5 4h1v1h-1zM6 4h1v1h-1zM7 4h1v1h-1zM8 4h1v1h-1zM2 5h1v1h-1zM2 6h1v1h-1zM3 6h1v1h-1zM4 6h1v1h-1zM5 6h1v1h-1zM6 6h1v1h-1zM7 6h1v1h-1zM8 6h1v1h-1zM2 8h1v1h-1zM3 9h1v1h-1zM4 9h1v1h-1zM5 9h1v1h-1zM6 9h1v1h-1zM7 9h1v1h-1zM4 10h1v1h-1zM5 10h1v1h-1z"/><path fill="#FFF2C8" d="M3 3h1v1h-1zM2 4h1v1h-1z"/><path fill="#B07A3A" d="M9 4h1v1h-1zM9 5h1v1h-1zM9 6h1v1h-1zM9 8h1v1h-1zM8 9h1v1h-1zM6 10h1v1h-1zM7 10h1v1h-1z"/><path fill="#B79CFF" d="M0 5h1v1h-1zM1 5h1v1h-1zM10 5h1v1h-1zM11 5h1v1h-1zM0 6h1v1h-1zM11 6h1v1h-1zM1 7h1v1h-1zM2 7h1v1h-1zM3 7h1v1h-1zM4 7h1v1h-1zM5 7h1v1h-1zM6 7h1v1h-1zM7 7h1v1h-1zM8 7h1v1h-1zM9 7h1v1h-1zM10 7h1v1h-1z"/><path fill="#D9A066" d="M3 5h1v1h-1zM4 5h1v1h-1zM5 5h1v1h-1zM6 5h1v1h-1zM7 5h1v1h-1zM8 5h1v1h-1zM3 8h1v1h-1zM4 8h1v1h-1zM5 8h1v1h-1zM6 8h1v1h-1zM7 8h1v1h-1zM8 8h1v1h-1z"/>' },
+    { name: 'Biology', color: '#6EE7A8',
+      icon: '<path fill="#6EE7A8" d="M2 0h1v1h-1zM9 0h1v1h-1zM3 1h1v1h-1zM8 1h1v1h-1zM4 2h1v1h-1zM7 2h1v1h-1zM5 3h1v1h-1zM6 3h1v1h-1zM4 4h1v1h-1zM7 4h1v1h-1zM3 5h1v1h-1zM8 5h1v1h-1zM2 6h1v1h-1zM9 6h1v1h-1zM2 7h1v1h-1zM9 7h1v1h-1zM3 8h1v1h-1zM8 8h1v1h-1zM4 9h1v1h-1zM7 9h1v1h-1zM5 10h1v1h-1zM6 10h1v1h-1zM4 11h1v1h-1zM7 11h1v1h-1z"/><path fill="#FFFFFF" fill-opacity="0.85" d="M5 2h1v1h-1zM6 2h1v1h-1zM5 4h1v1h-1zM6 4h1v1h-1zM5 9h1v1h-1zM6 9h1v1h-1zM5 11h1v1h-1zM6 11h1v1h-1z"/>' },
+    { name: 'Chemistry', color: '#FF9F5A',
+      icon: '<path fill="#FF9F5A" d="M3 0h1v1h-1zM4 0h1v1h-1zM5 0h1v1h-1zM6 0h1v1h-1zM7 0h1v1h-1zM8 0h1v1h-1zM4 1h1v1h-1zM7 1h1v1h-1zM4 2h1v1h-1zM7 2h1v1h-1zM4 3h1v1h-1zM7 3h1v1h-1zM4 4h1v1h-1zM7 4h1v1h-1zM3 5h1v1h-1zM8 5h1v1h-1zM2 6h1v1h-1zM9 6h1v1h-1zM1 7h1v1h-1zM10 7h1v1h-1zM0 8h1v1h-1zM11 8h1v1h-1zM0 9h1v1h-1zM11 9h1v1h-1zM1 10h1v1h-1zM2 10h1v1h-1zM3 10h1v1h-1zM4 10h1v1h-1zM5 10h1v1h-1zM6 10h1v1h-1zM7 10h1v1h-1zM8 10h1v1h-1zM9 10h1v1h-1zM10 10h1v1h-1z"/><path fill="#FFFFFF" fill-opacity="0.85" d="M2 7h1v1h-1zM3 7h1v1h-1zM4 7h1v1h-1zM5 7h1v1h-1zM6 7h1v1h-1zM7 7h1v1h-1zM8 7h1v1h-1zM9 7h1v1h-1zM1 8h1v1h-1zM2 8h1v1h-1zM3 8h1v1h-1zM4 8h1v1h-1zM5 8h1v1h-1zM6 8h1v1h-1zM7 8h1v1h-1zM8 8h1v1h-1zM9 8h1v1h-1zM10 8h1v1h-1zM1 9h1v1h-1zM2 9h1v1h-1zM3 9h1v1h-1zM4 9h1v1h-1zM5 9h1v1h-1zM6 9h1v1h-1zM7 9h1v1h-1zM8 9h1v1h-1zM9 9h1v1h-1zM10 9h1v1h-1z"/>' },
+    { name: 'Computer Science', color: '#5CD6FF',
+      icon: '<path fill="#5CD6FF" d="M0 0h1v1h-1zM1 0h1v1h-1zM2 0h1v1h-1zM3 0h1v1h-1zM4 0h1v1h-1zM5 0h1v1h-1zM6 0h1v1h-1zM7 0h1v1h-1zM8 0h1v1h-1zM9 0h1v1h-1zM10 0h1v1h-1zM11 0h1v1h-1zM0 1h1v1h-1zM11 1h1v1h-1zM0 2h1v1h-1zM2 2h1v1h-1zM11 2h1v1h-1zM0 3h1v1h-1zM3 3h1v1h-1zM11 3h1v1h-1zM0 4h1v1h-1zM2 4h1v1h-1zM5 4h1v1h-1zM6 4h1v1h-1zM7 4h1v1h-1zM8 4h1v1h-1zM11 4h1v1h-1zM0 5h1v1h-1zM11 5h1v1h-1zM0 6h1v1h-1zM11 6h1v1h-1zM0 7h1v1h-1zM1 7h1v1h-1zM2 7h1v1h-1zM3 7h1v1h-1zM4 7h1v1h-1zM5 7h1v1h-1zM6 7h1v1h-1zM7 7h1v1h-1zM8 7h1v1h-1zM9 7h1v1h-1zM10 7h1v1h-1zM11 7h1v1h-1zM5 8h1v1h-1zM6 8h1v1h-1zM4 9h1v1h-1zM5 9h1v1h-1zM6 9h1v1h-1zM7 9h1v1h-1zM2 10h1v1h-1zM3 10h1v1h-1zM4 10h1v1h-1zM5 10h1v1h-1zM6 10h1v1h-1zM7 10h1v1h-1zM8 10h1v1h-1zM9 10h1v1h-1z"/>' },
+    { name: 'Crime', color: '#FF7A7A',
+      icon: '<path fill="#FF7A7A" d="M1 0h1v1h-1zM2 0h1v1h-1zM3 0h1v1h-1zM4 0h1v1h-1zM0 1h1v1h-1zM5 1h1v1h-1zM0 2h1v1h-1zM5 2h1v1h-1zM0 3h1v1h-1zM5 3h1v1h-1zM0 4h1v1h-1zM5 4h1v1h-1zM1 5h1v1h-1zM2 5h1v1h-1zM3 5h1v1h-1zM4 5h1v1h-1zM5 6h1v1h-1zM6 6h1v1h-1zM6 7h1v1h-1zM7 7h1v1h-1zM7 8h1v1h-1zM8 8h1v1h-1zM8 9h1v1h-1zM9 9h1v1h-1zM9 10h1v1h-1zM10 10h1v1h-1z"/><path fill="#FFFFFF" fill-opacity="0.85" d="M1 1h1v1h-1zM2 1h1v1h-1zM3 1h1v1h-1zM4 1h1v1h-1zM1 2h1v1h-1z"/>' },
+    { name: 'Engineering', color: '#9BD67A',
+      icon: '<path fill="#9BD67A" d="M9 5h1v1h-1zM7 6h1v1h-1zM8 6h1v1h-1zM9 6h1v1h-1zM10 6h1v1h-1zM6 7h1v1h-1zM10 7h1v1h-1zM11 7h1v1h-1zM6 8h1v1h-1zM10 8h1v1h-1zM5 9h1v1h-1zM6 9h1v1h-1zM10 9h1v1h-1zM11 9h1v1h-1zM6 10h1v1h-1zM7 10h1v1h-1zM8 10h1v1h-1zM9 10h1v1h-1zM10 10h1v1h-1zM7 11h1v1h-1zM9 11h1v1h-1z"/><path fill="#FFFFFF" fill-opacity="0.85" d="M8 0h1v1h-1zM11 0h1v1h-1zM8 1h1v1h-1zM9 1h1v1h-1zM10 1h1v1h-1zM11 1h1v1h-1zM9 2h1v1h-1zM10 2h1v1h-1zM8 3h1v1h-1zM9 3h1v1h-1zM7 4h1v1h-1zM8 4h1v1h-1zM6 5h1v1h-1zM7 5h1v1h-1zM5 6h1v1h-1zM6 6h1v1h-1zM4 7h1v1h-1zM5 7h1v1h-1zM3 8h1v1h-1zM4 8h1v1h-1zM2 9h1v1h-1zM3 9h1v1h-1zM1 10h1v1h-1zM2 10h1v1h-1zM1 11h1v1h-1z"/>' },
+    { name: 'Fandom', color: '#FF85EE',
+      icon: '<path fill="#FF85EE" d="M5 0h1v1h-1zM6 0h1v1h-1zM5 1h1v1h-1zM6 1h1v1h-1zM4 2h1v1h-1zM5 2h1v1h-1zM6 2h1v1h-1zM7 2h1v1h-1zM0 3h1v1h-1zM1 3h1v1h-1zM2 3h1v1h-1zM3 3h1v1h-1zM4 3h1v1h-1zM5 3h1v1h-1zM6 3h1v1h-1zM7 3h1v1h-1zM8 3h1v1h-1zM9 3h1v1h-1zM10 3h1v1h-1zM11 3h1v1h-1zM1 4h1v1h-1zM2 4h1v1h-1zM3 4h1v1h-1zM4 4h1v1h-1zM5 4h1v1h-1zM6 4h1v1h-1zM7 4h1v1h-1zM8 4h1v1h-1zM9 4h1v1h-1zM10 4h1v1h-1zM2 5h1v1h-1zM3 5h1v1h-1zM4 5h1v1h-1zM5 5h1v1h-1zM6 5h1v1h-1zM7 5h1v1h-1zM8 5h1v1h-1zM9 5h1v1h-1zM2 6h1v1h-1zM3 6h1v1h-1zM4 6h1v1h-1zM5 6h1v1h-1zM6 6h1v1h-1zM7 6h1v1h-1zM8 6h1v1h-1zM9 6h1v1h-1zM1 7h1v1h-1zM2 7h1v1h-1zM3 7h1v1h-1zM4 7h1v1h-1zM7 7h1v1h-1zM8 7h1v1h-1zM9 7h1v1h-1zM10 7h1v1h-1zM1 8h1v1h-1zM2 8h1v1h-1zM3 8h1v1h-1zM8 8h1v1h-1zM9 8h1v1h-1zM10 8h1v1h-1zM1 9h1v1h-1zM10 9h1v1h-1z"/>' },
+    { name: 'Gaming', color: '#C9F06B',
+      icon: '<path fill="#C9F06B" d="M1 1h1v1h-1zM2 1h1v1h-1zM3 1h1v1h-1zM4 1h1v1h-1zM5 1h1v1h-1zM6 1h1v1h-1zM7 1h1v1h-1zM8 1h1v1h-1zM9 1h1v1h-1zM10 1h1v1h-1zM0 2h1v1h-1zM11 2h1v1h-1zM0 3h1v1h-1zM2 3h1v1h-1zM11 3h1v1h-1zM0 4h1v1h-1zM1 4h1v1h-1zM2 4h1v1h-1zM11 4h1v1h-1zM0 5h1v1h-1zM2 5h1v1h-1zM11 5h1v1h-1zM0 6h1v1h-1zM11 6h1v1h-1zM0 7h1v1h-1zM4 7h1v1h-1zM5 7h1v1h-1zM6 7h1v1h-1zM7 7h1v1h-1zM11 7h1v1h-1zM1 8h1v1h-1zM2 8h1v1h-1zM3 8h1v1h-1zM8 8h1v1h-1zM9 8h1v1h-1zM10 8h1v1h-1z"/><path fill="#FFFFFF" fill-opacity="0.85" d="M8 3h1v1h-1zM7 4h1v1h-1zM9 4h1v1h-1zM8 5h1v1h-1z"/>' },
+    { name: 'Logic', color: '#F4E4BA',
+      icon: '<path fill="#F4E4BA" d="M3 0h1v1h-1zM4 0h1v1h-1zM5 0h1v1h-1zM6 0h1v1h-1zM7 0h1v1h-1zM8 0h1v1h-1zM2 1h1v1h-1zM9 1h1v1h-1zM1 2h1v1h-1zM10 2h1v1h-1zM1 3h1v1h-1zM10 3h1v1h-1zM1 4h1v1h-1zM10 4h1v1h-1zM2 5h1v1h-1zM9 5h1v1h-1zM3 6h1v1h-1zM8 6h1v1h-1zM3 7h1v1h-1zM4 7h1v1h-1zM5 7h1v1h-1zM6 7h1v1h-1zM7 7h1v1h-1zM8 7h1v1h-1zM3 8h1v1h-1zM4 8h1v1h-1zM5 8h1v1h-1zM6 8h1v1h-1zM7 8h1v1h-1zM8 8h1v1h-1zM4 9h1v1h-1zM5 9h1v1h-1zM6 9h1v1h-1zM7 9h1v1h-1z"/><path fill="#FFFFFF" fill-opacity="0.85" d="M4 2h1v1h-1zM7 2h1v1h-1zM5 3h1v1h-1zM6 3h1v1h-1zM5 4h1v1h-1zM5 5h1v1h-1zM5 6h1v1h-1z"/>' },
+    { name: 'Maths', color: '#FFD166',
+      icon: '<path fill="#FFD166" d="M0 0h1v1h-1zM1 0h1v1h-1zM2 0h1v1h-1zM3 0h1v1h-1zM4 0h1v1h-1zM5 0h1v1h-1zM6 0h1v1h-1zM7 0h1v1h-1zM8 0h1v1h-1zM9 0h1v1h-1zM10 0h1v1h-1zM11 0h1v1h-1zM0 1h1v1h-1zM1 1h1v1h-1zM2 1h1v1h-1zM3 1h1v1h-1zM4 1h1v1h-1zM5 1h1v1h-1zM6 1h1v1h-1zM7 1h1v1h-1zM8 1h1v1h-1zM9 1h1v1h-1zM10 1h1v1h-1zM11 1h1v1h-1zM2 2h1v1h-1zM3 2h1v1h-1zM8 2h1v1h-1zM9 2h1v1h-1zM2 3h1v1h-1zM3 3h1v1h-1zM8 3h1v1h-1zM9 3h1v1h-1zM2 4h1v1h-1zM3 4h1v1h-1zM8 4h1v1h-1zM9 4h1v1h-1zM2 5h1v1h-1zM3 5h1v1h-1zM8 5h1v1h-1zM9 5h1v1h-1zM2 6h1v1h-1zM3 6h1v1h-1zM8 6h1v1h-1zM9 6h1v1h-1zM2 7h1v1h-1zM3 7h1v1h-1zM8 7h1v1h-1zM9 7h1v1h-1zM1 8h1v1h-1zM2 8h1v1h-1zM8 8h1v1h-1zM9 8h1v1h-1zM0 9h1v1h-1zM1 9h1v1h-1zM8 9h1v1h-1zM9 9h1v1h-1zM10 9h1v1h-1z"/>' },
+    { name: 'Physics', color: '#8FB0FF',
+      icon: '<path fill="#8FB0FF" d="M4 0h1v1h-1zM5 0h1v1h-1zM6 0h1v1h-1zM7 0h1v1h-1zM2 1h1v1h-1zM3 1h1v1h-1zM8 1h1v1h-1zM9 1h1v1h-1zM1 2h1v1h-1zM10 2h1v1h-1zM0 3h1v1h-1zM11 3h1v1h-1zM0 4h1v1h-1zM11 4h1v1h-1zM0 5h1v1h-1zM11 5h1v1h-1zM0 6h1v1h-1zM11 6h1v1h-1zM1 7h1v1h-1zM10 7h1v1h-1zM2 8h1v1h-1zM3 8h1v1h-1zM8 8h1v1h-1zM9 8h1v1h-1zM4 9h1v1h-1zM5 9h1v1h-1zM6 9h1v1h-1zM7 9h1v1h-1z"/><path fill="#FFFFFF" fill-opacity="0.85" d="M5 3h1v1h-1zM6 3h1v1h-1zM4 4h1v1h-1zM5 4h1v1h-1zM6 4h1v1h-1zM7 4h1v1h-1zM4 5h1v1h-1zM5 5h1v1h-1zM6 5h1v1h-1zM7 5h1v1h-1zM5 6h1v1h-1zM6 6h1v1h-1z"/>' },
+    { name: 'Psychology', color: '#FF8FD1',
+      icon: '<path fill="#FF8FD1" d="M2 0h1v1h-1zM3 0h1v1h-1zM4 0h1v1h-1zM5 0h1v1h-1zM6 0h1v1h-1zM7 0h1v1h-1zM8 0h1v1h-1zM9 0h1v1h-1zM1 1h1v1h-1zM10 1h1v1h-1zM0 2h1v1h-1zM4 2h1v1h-1zM5 2h1v1h-1zM6 2h1v1h-1zM7 2h1v1h-1zM11 2h1v1h-1zM0 3h1v1h-1zM3 3h1v1h-1zM8 3h1v1h-1zM11 3h1v1h-1zM0 4h1v1h-1zM7 4h1v1h-1zM11 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM11 5h1v1h-1zM0 6h1v1h-1zM6 6h1v1h-1zM11 6h1v1h-1zM1 7h1v1h-1zM10 7h1v1h-1zM2 8h1v1h-1zM3 8h1v1h-1zM4 8h1v1h-1zM5 8h1v1h-1zM7 8h1v1h-1zM8 8h1v1h-1zM9 8h1v1h-1zM6 9h1v1h-1zM5 10h1v1h-1z"/>' },
+    { name: 'Robotics', color: '#4FE3C1', badge: 'NEW',
+      icon: '<path fill="#4FE3C1" d="M5 0h1v1h-1zM6 0h1v1h-1zM5 1h1v1h-1zM6 1h1v1h-1zM1 2h1v1h-1zM2 2h1v1h-1zM3 2h1v1h-1zM4 2h1v1h-1zM5 2h1v1h-1zM6 2h1v1h-1zM7 2h1v1h-1zM8 2h1v1h-1zM9 2h1v1h-1zM10 2h1v1h-1zM1 3h1v1h-1zM10 3h1v1h-1zM1 4h1v1h-1zM10 4h1v1h-1zM1 5h1v1h-1zM10 5h1v1h-1zM1 6h1v1h-1zM10 6h1v1h-1zM1 7h1v1h-1zM4 7h1v1h-1zM5 7h1v1h-1zM6 7h1v1h-1zM7 7h1v1h-1zM10 7h1v1h-1zM1 8h1v1h-1zM2 8h1v1h-1zM3 8h1v1h-1zM4 8h1v1h-1zM5 8h1v1h-1zM6 8h1v1h-1zM7 8h1v1h-1zM8 8h1v1h-1zM9 8h1v1h-1zM10 8h1v1h-1zM3 9h1v1h-1zM8 9h1v1h-1zM2 10h1v1h-1zM3 10h1v1h-1zM8 10h1v1h-1zM9 10h1v1h-1z"/><path fill="#FFFFFF" fill-opacity="0.85" d="M3 4h1v1h-1zM4 4h1v1h-1zM7 4h1v1h-1zM8 4h1v1h-1zM3 5h1v1h-1zM4 5h1v1h-1zM7 5h1v1h-1zM8 5h1v1h-1z"/>' }
   ];
 
   function gearPath(cx, cy, ro, ri, n) {
@@ -118,7 +103,7 @@
       '</span>' +
       (m.badge ? '<span class="mc-badge">' + m.badge + '</span>' : '') +
       '<div class="mc-content">' +
-        '<div class="mc-iconwrap"><svg class="mc-icon" viewBox="0 0 64 64" aria-hidden="true">' + m.icon + '</svg></div>' +
+        '<div class="mc-iconwrap"><svg class="mc-icon mc-icon--px" viewBox="0 0 12 12" shape-rendering="crispEdges" aria-hidden="true">' + m.icon + '</svg></div>' +
         '<span class="mc-sep" aria-hidden="true"></span>' +
         '<h3 class="mc-name' + (m.name.length > 12 ? ' is-long' : '') + '">' + m.name.replace('&', '&amp;') + '</h3>' +
       '</div></div>';
@@ -135,6 +120,7 @@
     MODULES.forEach(function (m, i) {
       var c = document.createElement('div');
       c.className = 'mc-card';
+      c.style.setProperty('--mc-accent', m.color);
       c.setAttribute('role', 'group');
       c.setAttribute('aria-roledescription', 'slide');
       c.setAttribute('aria-label', (i + 1) + ' of ' + n + ': ' + m.name);

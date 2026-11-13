@@ -143,3 +143,12 @@
   .ct-ico,
   .ct-value { transition: none; }
 }
+.ct-dev {
+  color: #e2d4ff; text-decoration: none;
+  border-bottom: 1px dashed #b48cff99;
+  transition: color .2s, border-color .2s, text-shadow .2s;
+}
+.ct-dev:hover, .ct-dev:focus-visible {
+  color: #fff; border-bottom-color: #fff; text-shadow: 0 0 .8em #b48cffcc;
+}
+.ct-dev:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }

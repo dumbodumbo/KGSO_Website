@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>KGSO — Karachi Grammar School Olympiad</title>
-  <link rel="icon" href="assets/brand/favicon.ico?v=1" sizes="any">
-  <link rel="icon" type="image/png" href="assets/brand/favicon.png?v=1" sizes="32x32">
-  <link rel="icon" type="image/png" href="assets/brand/favicon-48.png?v=1" sizes="48x48">
-  <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png?v=1">
+  <link rel="icon" href="assets/brand/favicon.ico?v=2" sizes="any">
+  <link rel="icon" type="image/png" href="assets/brand/favicon.png?v=2" sizes="32x32">
+  <link rel="icon" type="image/png" href="assets/brand/favicon-48.png?v=2" sizes="48x48">
+  <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png?v=2">
   <meta name="description" content="Karachi Grammar School Olympiad (KGSO) — a multi-day national STEM competition from the KGS STEM Society. Modules, schedule, legacy galleries, FAQ, and registration.">
   <!-- Replace https://example.com with the production origin before deploy -->
   <link rel="canonical" href="https://example.com/">
@@ -16,29 +16,37 @@
   <meta property="og:title" content="KGSO — Karachi Grammar School Olympiad">
   <meta property="og:description" content="A multi-day national STEM competition from the KGS STEM Society. Explore modules, schedule, legacy, and register.">
   <meta property="og:url" content="https://example.com/">
-  <meta property="og:image" content="https://example.com/assets/video/kgso-highlights-poster.jpg">
+  <meta property="og:image" content="https://example.com/assets/brand/kgso-share.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="KGSO — Karachi Grammar School Olympiad">
   <meta name="twitter:description" content="A multi-day national STEM competition from the KGS STEM Society.">
-  <meta name="twitter:image" content="https://example.com/assets/video/kgso-highlights-poster.jpg">
+  <meta name="twitter:image" content="https://example.com/assets/brand/kgso-share.jpg">
   <link rel="preload" as="image" href="assets/bg/background.webp?v=5" type="image/webp" fetchpriority="high">
-  <link rel="preload" as="image" href="assets/brand/logo-letters.webp?v=5" type="image/webp" fetchpriority="high">
-  <link rel="preload" as="image" href="assets/brand/helmet.webp?v=5" type="image/webp" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/brand/logo-letters.webp?v=6" type="image/webp" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/brand/helmet.webp?v=6" type="image/webp" fetchpriority="high">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600&family=Press+Start+2P&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+  <script>
+    // page transition: start covered if we came from another KGSO page (js/transition.js)
+    if (sessionStorage.getItem('kgso_warp')) {
+      sessionStorage.removeItem('kgso_warp');
+      document.documentElement.classList.add('warp-in');
+      setTimeout(function () { document.documentElement.classList.remove('warp-in'); }, 3000);
+    }
+  </script>
   <style>html.intro-pre{background:#000}html.intro-pre #hero{visibility:hidden}</style>
-  <link rel="stylesheet" href="css/style.css?v=24">
-  <link rel="stylesheet" href="css/intro.css?v=9">
+  <link rel="stylesheet" href="css/style.css?v=28">
+  <link rel="stylesheet" href="css/intro.css?v=10">
   <link rel="stylesheet" href="css/countdown.css?v=7">
   <link rel="stylesheet" href="css/video.css?v=5">
   <link rel="stylesheet" href="css/register.css?v=2">
-  <link rel="stylesheet" href="css/about.css?v=3">
-  <link rel="stylesheet" href="css/modules.css?v=3">
+  <link rel="stylesheet" href="css/about.css?v=4">
+  <link rel="stylesheet" href="css/modules.css?v=4">
   <link rel="stylesheet" href="css/schedule.css?v=2">
   <link rel="stylesheet" href="css/legacy.css?v=6">
-  <link rel="stylesheet" href="css/faq.css?v=2">
-  <link rel="stylesheet" href="css/contact.css?v=4">
+  <link rel="stylesheet" href="css/faq.css?v=4">
+  <link rel="stylesheet" href="css/contact.css?v=5">
   <script>
     // Intro always plays on open/refresh. Skip button + reduced-motion still apply in intro.js.
     (function () {
@@ -51,6 +59,11 @@
       setTimeout(function () { d.classList.remove('intro-pre'); }, 8000);
       if (reduce) d.classList.add('reduced-motion');
       try {
+        // skip the intro when coming back from vendors/sponsors or via the back button
+        if (sessionStorage.getItem('kgso_return') === '1') window.__kgsoNoIntro = true;
+        var nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+        if (nav && nav.type === 'back_forward') window.__kgsoNoIntro = true;
+        sessionStorage.removeItem('kgso_return');
         sessionStorage.removeItem('kgso_skip_intro');
         sessionStorage.removeItem('kgso_intro_seen');
       } catch (e) {}
@@ -87,6 +100,8 @@
         <a href="#modules">Modules</a>
         <a href="#schedule">Schedule</a>
         <a href="#legacy">Legacy</a>
+        <a href="vendors.html">Vendors</a>
+        <a href="sponsors.html">Sponsors</a>
         <a href="#faq">FAQ</a>
         <a href="#contact">Contact</a>
       </nav>
@@ -131,8 +146,8 @@
                 </svg>
                 <div class="vid-screen">
                   <video autoplay muted loop playsinline preload="none"
-                    data-src="assets/video/kgso-highlights.mp4?v=6"
-                    poster="assets/video/kgso-highlights-poster.jpg?v=7" aria-label="KGSO highlights video">
+                    data-src="assets/video/kgso-highlights.mp4?v=7"
+                    poster="assets/video/kgso-highlights-poster.jpg?v=8" aria-label="KGSO XIII logo reveal video">
                   </video>
                   <div class="vid-ctrls">
                     <button class="vid-btn vid-play" type="button" aria-label="Pause video">
@@ -173,7 +188,8 @@
           <div class="kx-panel">
             <span class="kx-bg" aria-hidden="true"><i></i><b></b><b></b></span>
             <h3 class="kx-kicker">What it is</h3>
-            <p class="kx-text">The KGS STEM Society is a student-run organization at Karachi Grammar School College Section, rooted in the school's long-running science and math societies, including the Einstein Society. Its flagship is the <strong>Karachi Grammar School Olympiad (KGSO)</strong>, a multi-day national STEM competition.</p>
+            <p class="kx-text">The <strong>Karachi Grammar School Olympiad (KGSO)</strong> is KGS's flagship STEM event: a multi-day competition running from <strong>22 to 24 January 2027</strong>. Now in its <strong>13th edition</strong>, it is open to all participants aged 13 to 18, and this year it also features an <strong>online event for university students</strong>.</p>
+            <p class="kx-text">Run by the student-led KGS STEM Society, KGSO is one of the oldest running competitions at one of the oldest schools in Karachi, if not the whole of Asia.</p>
             <span class="kx-spark" style="--x:96%;--y:-4%;--s:18px;--d:.6s" aria-hidden="true"></span>
             <span class="kx-spark" style="--x:-2%;--y:88%;--s:12px;--d:1.7s" aria-hidden="true"></span>
           </div>
@@ -186,7 +202,7 @@
             <h2 id="scale-title" class="kx-title">Scale &amp; Legacy</h2>
             <span class="kx-star" style="--d:1.3s" aria-hidden="true"></span><span class="kx-line kx-line--r" aria-hidden="true"></span>
           </div>
-          <p class="kx-sub">Twelve years of KGSO</p>
+          <p class="kx-sub">Thirteen years of KGSO</p>
         </div>
         <div class="st-grid" data-orbit>
           <div class="st-tile">
@@ -198,23 +214,23 @@
           </div>
           <div class="st-tile">
             <span class="kx-bg" aria-hidden="true"><i></i><b></b><b></b></span>
-            <span class="st-val"><span data-count="12">12</span></span>
+            <span class="st-val"><span data-count="13">13</span></span>
             <span class="st-label">Years of KGSO</span>
             <span class="st-note">A national legacy</span>
             <span class="kx-spark" style="--x:12%;--y:80%;--d:1.1s" aria-hidden="true"></span>
           </div>
           <div class="st-tile">
             <span class="kx-bg" aria-hidden="true"><i></i><b></b><b></b></span>
-            <span class="st-val"><span data-count="500">500</span><small>+</small></span>
-            <span class="st-label">Delegates</span>
-            <span class="st-note">Schools &bull; Independents</span>
+            <span class="st-val"><span data-count="3">3</span></span>
+            <span class="st-label">Days</span>
+            <span class="st-note">22 &bull; 23 &bull; 24 January</span>
             <span class="kx-spark" style="--x:86%;--y:78%;--d:1.8s" aria-hidden="true"></span>
           </div>
           <div class="st-tile">
             <span class="kx-bg" aria-hidden="true"><i></i><b></b><b></b></span>
             <span class="st-val st-val--word" data-scramble="NATIONWIDE">NATIONWIDE</span>
             <span class="st-label">Reach</span>
-            <span class="st-note">A-Level &bull; O-Level &bull; Colleges</span>
+            <span class="st-note">Ages 13 to 18 &bull; Online</span>
             <span class="kx-spark" style="--x:14%;--y:18%;--d:.8s" aria-hidden="true"></span>
           </div>
         </div>
@@ -222,7 +238,7 @@
           <div class="kx-panel">
             <span class="kx-bg" aria-hidden="true"><i></i><b></b><b></b></span>
             <h3 class="kx-kicker">The competition</h3>
-            <p class="kx-text">The 13th annual edition runs in 2027, twelve years of KGSO. It is <strong>one of the largest high school STEM competitions in Pakistan</strong>. It draws A-Level schools, O-Level institutions, and colleges nationwide. 500+ delegates take part. Teams represent schools or compete as independent external delegations.</p>
+            <p class="kx-text">The 13th edition runs in January 2027, marking thirteen years of KGSO. It is <strong>one of the largest high school STEM competitions in Pakistan</strong>, drawing A-Level schools, O-Level institutions and colleges nationwide. Teams represent their schools or compete as independent external delegations, and this year university students can also take part online.</p>
           </div>
         </div>
       </section>
@@ -321,8 +337,8 @@
           <article class="lg-edition" data-year="2026">
             <button class="lg-banner" type="button" aria-expanded="false" aria-controls="lg-spill-2026" id="lg-btn-2026">
               <picture>
-              <source type="image/webp" srcset="assets/legacy/2026/cover.webp?v=3">
-              <img class="lg-cover" src="assets/legacy/2026/cover.jpg?v=3" alt="" width="720" height="1600" loading="lazy" decoding="async">
+              <source type="image/webp" srcset="assets/legacy/2026/cover.webp?v=4">
+              <img class="lg-cover" src="assets/legacy/2026/cover.jpg?v=4" alt="" width="1400" height="933" loading="lazy" decoding="async">
             </picture>
               <span class="lg-veil" aria-hidden="true"></span>
               <span class="lg-banner-inner">
@@ -340,20 +356,20 @@
               <div class="lg-spill-inner">
                 <div class="lg-gallery">
                   <figure class="lg-shot"><picture>
-                    <source type="image/webp" srcset="assets/legacy/2026/cover.webp?v=3">
-                    <img src="assets/legacy/2026/cover.jpg?v=3" alt="KGSO 2026 hall ceremony" width="720" height="1600" loading="lazy" decoding="async">
+                    <source type="image/webp" srcset="assets/legacy/2026/cover.webp?v=4">
+                    <img src="assets/legacy/2026/cover.jpg?v=4" alt="KGSO 2026 opening ceremony in the hall" width="1400" height="933" loading="lazy" decoding="async">
                   </picture></figure>
                   <figure class="lg-shot"><picture>
-                    <source type="image/webp" srcset="assets/legacy/2026/g1.webp?v=3">
-                    <img src="assets/legacy/2026/g1.jpg?v=3" alt="KGSO 2026 paradox pipeline teams" width="720" height="1600" loading="lazy" decoding="async">
+                    <source type="image/webp" srcset="assets/legacy/2026/g1.webp?v=5">
+                    <img src="assets/legacy/2026/g1.jpg?v=5" alt="KGSO 2026 team working through a round" width="933" height="1400" loading="lazy" decoding="async">
                   </picture></figure>
                   <figure class="lg-shot"><picture>
-                    <source type="image/webp" srcset="assets/legacy/2026/g2.webp?v=3">
-                    <img src="assets/legacy/2026/g2.jpg?v=3" alt="KGSO 2026 gaming module outdoors" width="720" height="1600" loading="lazy" decoding="async">
+                    <source type="image/webp" srcset="assets/legacy/2026/g2.webp?v=4">
+                    <img src="assets/legacy/2026/g2.jpg?v=4" alt="KGSO 2026 biology module in the lab" width="1400" height="933" loading="lazy" decoding="async">
                   </picture></figure>
                   <figure class="lg-shot"><picture>
-                    <source type="image/webp" srcset="assets/legacy/2026/g3.webp?v=3">
-                    <img src="assets/legacy/2026/g3.jpg?v=3" alt="KGSO 2026 biology module" width="720" height="1600" loading="lazy" decoding="async">
+                    <source type="image/webp" srcset="assets/legacy/2026/g3.webp?v=4">
+                    <img src="assets/legacy/2026/g3.jpg?v=4" alt="KGSO 2026 computer science module" width="1400" height="933" loading="lazy" decoding="async">
                   </picture></figure>
                 </div>
               </div>
@@ -362,8 +378,8 @@
           <article class="lg-edition" data-year="2025">
             <button class="lg-banner" type="button" aria-expanded="false" aria-controls="lg-spill-2025" id="lg-btn-2025">
               <picture>
-              <source type="image/webp" srcset="assets/legacy/2025/cover.webp?v=3">
-              <img class="lg-cover" src="assets/legacy/2025/cover.jpg?v=3" alt="" width="720" height="1600" loading="lazy" decoding="async">
+              <source type="image/webp" srcset="assets/legacy/2025/cover.webp?v=4">
+              <img class="lg-cover" src="assets/legacy/2025/cover.jpg?v=4" alt="" width="1400" height="933" loading="lazy" decoding="async">
             </picture>
               <span class="lg-veil" aria-hidden="true"></span>
               <span class="lg-banner-inner">
@@ -381,20 +397,20 @@
               <div class="lg-spill-inner">
                 <div class="lg-gallery">
                   <figure class="lg-shot"><picture>
-                    <source type="image/webp" srcset="assets/legacy/2025/cover.webp?v=3">
-                    <img src="assets/legacy/2025/cover.jpg?v=3" alt="KGSO 2025 logic module collage" width="720" height="1600" loading="lazy" decoding="async">
+                    <source type="image/webp" srcset="assets/legacy/2025/cover.webp?v=4">
+                    <img src="assets/legacy/2025/cover.jpg?v=4" alt="KGSO 2025 chemistry module in the lab" width="1400" height="933" loading="lazy" decoding="async">
                   </picture></figure>
                   <figure class="lg-shot"><picture>
-                    <source type="image/webp" srcset="assets/legacy/2025/g1.webp?v=3">
-                    <img src="assets/legacy/2025/g1.jpg?v=3" alt="KGSO 2025 fandom module" width="720" height="1600" loading="lazy" decoding="async">
+                    <source type="image/webp" srcset="assets/legacy/2025/g1.webp?v=4">
+                    <img src="assets/legacy/2025/g1.jpg?v=4" alt="KGSO 2025 written round" width="1400" height="933" loading="lazy" decoding="async">
                   </picture></figure>
                   <figure class="lg-shot"><picture>
-                    <source type="image/webp" srcset="assets/legacy/2025/g2.webp?v=3">
-                    <img src="assets/legacy/2025/g2.jpg?v=3" alt="KGSO 2025 delegates competing" width="720" height="1600" loading="lazy" decoding="async">
+                    <source type="image/webp" srcset="assets/legacy/2025/g2.webp?v=4">
+                    <img src="assets/legacy/2025/g2.jpg?v=4" alt="KGSO 2025 registration desk" width="933" height="1400" loading="lazy" decoding="async">
                   </picture></figure>
                   <figure class="lg-shot"><picture>
-                    <source type="image/webp" srcset="assets/legacy/2025/g3.webp?v=3">
-                    <img src="assets/legacy/2025/g3.jpg?v=3" alt="KGSO 2025 event moments" width="720" height="1600" loading="lazy" decoding="async">
+                    <source type="image/webp" srcset="assets/legacy/2025/g3.webp?v=4">
+                    <img src="assets/legacy/2025/g3.jpg?v=4" alt="KGSO 2025 delegates after the day" width="1400" height="933" loading="lazy" decoding="async">
                   </picture></figure>
                 </div>
               </div>
@@ -403,8 +419,8 @@
           <article class="lg-edition" data-year="2024">
             <button class="lg-banner" type="button" aria-expanded="false" aria-controls="lg-spill-2024" id="lg-btn-2024">
               <picture>
-              <source type="image/webp" srcset="assets/legacy/2024/cover.webp?v=3">
-              <img class="lg-cover" src="assets/legacy/2024/cover.jpg?v=3" alt="" width="720" height="1600" loading="lazy" decoding="async">
+              <source type="image/webp" srcset="assets/legacy/2024/cover.webp?v=4">
+              <img class="lg-cover" src="assets/legacy/2024/cover.jpg?v=4" alt="" width="1400" height="933" loading="lazy" decoding="async">
             </picture>
               <span class="lg-veil" aria-hidden="true"></span>
               <span class="lg-banner-inner">
@@ -422,20 +438,20 @@
               <div class="lg-spill-inner">
                 <div class="lg-gallery">
                   <figure class="lg-shot"><picture>
-                    <source type="image/webp" srcset="assets/legacy/2024/cover.webp?v=3">
-                    <img src="assets/legacy/2024/cover.jpg?v=3" alt="KGSO 2024 campus banners" width="720" height="1600" loading="lazy" decoding="async">
+                    <source type="image/webp" srcset="assets/legacy/2024/cover.webp?v=4">
+                    <img src="assets/legacy/2024/cover.jpg?v=4" alt="KGSO 2024 delegates in the courtyard" width="1400" height="933" loading="lazy" decoding="async">
                   </picture></figure>
                   <figure class="lg-shot"><picture>
-                    <source type="image/webp" srcset="assets/legacy/2024/g1.webp?v=3">
-                    <img src="assets/legacy/2024/g1.jpg?v=3" alt="KGSO 2024 event photo" width="720" height="1600" loading="lazy" decoding="async">
+                    <source type="image/webp" srcset="assets/legacy/2024/g1.webp?v=4">
+                    <img src="assets/legacy/2024/g1.jpg?v=4" alt="KGSO 2024 team in the computer room" width="1400" height="933" loading="lazy" decoding="async">
                   </picture></figure>
                   <figure class="lg-shot"><picture>
-                    <source type="image/webp" srcset="assets/legacy/2024/g2.webp?v=3">
-                    <img src="assets/legacy/2024/g2.jpg?v=3" alt="KGSO 2024 delegates" width="720" height="1600" loading="lazy" decoding="async">
+                    <source type="image/webp" srcset="assets/legacy/2024/g2.webp?v=4">
+                    <img src="assets/legacy/2024/g2.jpg?v=4" alt="KGSO 2024 chemistry round with molecule kits" width="1400" height="933" loading="lazy" decoding="async">
                   </picture></figure>
                   <figure class="lg-shot"><picture>
-                    <source type="image/webp" srcset="assets/legacy/2024/g3.webp?v=3">
-                    <img src="assets/legacy/2024/g3.jpg?v=3" alt="KGSO 2024 competition moments" width="720" height="1600" loading="lazy" decoding="async">
+                    <source type="image/webp" srcset="assets/legacy/2024/g3.webp?v=5">
+                    <img src="assets/legacy/2024/g3.jpg?v=5" alt="KGSO 2024 delegates writing answers" width="933" height="1400" loading="lazy" decoding="async">
                   </picture></figure>
                 </div>
               </div>
@@ -450,139 +466,71 @@
             <h2 id="faq-title" class="kx-title">FAQ</h2>
             <span class="kx-star" style="--d:1.3s" aria-hidden="true"></span><span class="kx-line kx-line--r" aria-hidden="true"></span>
           </div>
-          <p class="kx-sub">Frequently Asked Questions</p>
+          <p class="kx-sub">Incoming transmissions</p>
         </div>
-        <div class="fq-scatter" data-orbit>
-          <article class="fq-ticket">
-            <button class="fq-btn" type="button" aria-expanded="false" aria-controls="fq-a1" id="fq-q1">
-              <span class="fq-accent" aria-hidden="true"></span>
-              <span class="fq-main">
-                <span class="fq-meta"><span>Jan 2027</span><span class="fq-arrow" aria-hidden="true">&rarr;</span></span>
-                <span class="fq-q">What is KGSO?</span>
-                <span class="fq-panel" id="fq-a1" role="region" aria-labelledby="fq-q1" aria-hidden="true">
-                  <span class="fq-panel-inner">
-                    <span class="fq-a">KGSO consists of 12 modules of competition over 3 days, spanning modules such as Biology, Crime, and Fandom, with multiple rounds per module, including a social dinner on the final day.</span>
-                  </span>
-                </span>
-                <span class="fq-seat" aria-hidden="true">
-                  <span><small>SEC</small>FAQ</span>
-                  <span><small>ROW</small>01</span>
-                  <span><small>SEAT</small>01</span>
-                </span>
-              </span>
-              <span class="fq-barcode" aria-hidden="true"></span>
-              <span class="fq-perf" aria-hidden="true"></span>
-              <span class="fq-stub" aria-hidden="true">
-                <span class="fq-stub-q">What is KGSO?</span>
-                <span class="fq-stub-meta">KGSO · Q01</span>
-              </span>
-              <span class="fq-hint">Tap to open</span>
-            </button>
-          </article>
-          <article class="fq-ticket">
-            <button class="fq-btn" type="button" aria-expanded="false" aria-controls="fq-a2" id="fq-q2">
-              <span class="fq-accent" aria-hidden="true"></span>
-              <span class="fq-main">
-                <span class="fq-meta"><span>Jan 2027</span><span class="fq-arrow" aria-hidden="true">&rarr;</span></span>
-                <span class="fq-q">What activities take place during the event?</span>
-                <span class="fq-panel" id="fq-a2" role="region" aria-labelledby="fq-q2" aria-hidden="true">
-                  <span class="fq-panel-inner">
-                    <span class="fq-a">Modules will run throughout each day, with breaks where you can eat and relax at our food stall partners before your next module. There will also be a social dinner on the final day.</span>
-                  </span>
-                </span>
-                <span class="fq-seat" aria-hidden="true">
-                  <span><small>SEC</small>FAQ</span>
-                  <span><small>ROW</small>01</span>
-                  <span><small>SEAT</small>02</span>
-                </span>
-              </span>
-              <span class="fq-barcode" aria-hidden="true"></span>
-              <span class="fq-perf" aria-hidden="true"></span>
-              <span class="fq-stub" aria-hidden="true">
-                <span class="fq-stub-q">Activities</span>
-                <span class="fq-stub-meta">KGSO · Q02</span>
-              </span>
-              <span class="fq-hint">Tap to open</span>
-            </button>
-          </article>
-          <article class="fq-ticket">
-            <button class="fq-btn" type="button" aria-expanded="false" aria-controls="fq-a3" id="fq-q3">
-              <span class="fq-accent" aria-hidden="true"></span>
-              <span class="fq-main">
-                <span class="fq-meta"><span>Jan 2027</span><span class="fq-arrow" aria-hidden="true">&rarr;</span></span>
-                <span class="fq-q">Are there registration fees?</span>
-                <span class="fq-panel" id="fq-a3" role="region" aria-labelledby="fq-q3" aria-hidden="true">
-                  <span class="fq-panel-inner">
-                    <span class="fq-a">Yes, please check the registration form for fee details.</span>
-                  </span>
-                </span>
-                <span class="fq-seat" aria-hidden="true">
-                  <span><small>SEC</small>FAQ</span>
-                  <span><small>ROW</small>02</span>
-                  <span><small>SEAT</small>03</span>
-                </span>
-              </span>
-              <span class="fq-barcode" aria-hidden="true"></span>
-              <span class="fq-perf" aria-hidden="true"></span>
-              <span class="fq-stub" aria-hidden="true">
-                <span class="fq-stub-q">Registration fees</span>
-                <span class="fq-stub-meta">KGSO · Q03</span>
-              </span>
-              <span class="fq-hint">Tap to open</span>
-            </button>
-          </article>
-          <article class="fq-ticket">
-            <button class="fq-btn" type="button" aria-expanded="false" aria-controls="fq-a4" id="fq-q4">
-              <span class="fq-accent" aria-hidden="true"></span>
-              <span class="fq-main">
-                <span class="fq-meta"><span>Jan 2027</span><span class="fq-arrow" aria-hidden="true">&rarr;</span></span>
-                <span class="fq-q">What is the dress code?</span>
-                <span class="fq-panel" id="fq-a4" role="region" aria-labelledby="fq-q4" aria-hidden="true">
-                  <span class="fq-panel-inner">
-                    <span class="fq-a">Delegates usually wear semi-formal attire or delegation t-shirts rather than standard school uniforms.</span>
-                  </span>
-                </span>
-                <span class="fq-seat" aria-hidden="true">
-                  <span><small>SEC</small>FAQ</span>
-                  <span><small>ROW</small>02</span>
-                  <span><small>SEAT</small>04</span>
-                </span>
-              </span>
-              <span class="fq-barcode" aria-hidden="true"></span>
-              <span class="fq-perf" aria-hidden="true"></span>
-              <span class="fq-stub" aria-hidden="true">
-                <span class="fq-stub-q">Dress code</span>
-                <span class="fq-stub-meta">KGSO · Q04</span>
-              </span>
-              <span class="fq-hint">Tap to open</span>
-            </button>
-          </article>
-          <article class="fq-ticket">
-            <button class="fq-btn" type="button" aria-expanded="false" aria-controls="fq-a5" id="fq-q5">
-              <span class="fq-accent" aria-hidden="true"></span>
-              <span class="fq-main">
-                <span class="fq-meta"><span>Jan 2027</span><span class="fq-arrow" aria-hidden="true">&rarr;</span></span>
-                <span class="fq-q">Can delegates leave the campus during event hours?</span>
-                <span class="fq-panel" id="fq-a5" role="region" aria-labelledby="fq-q5" aria-hidden="true">
-                  <span class="fq-panel-inner">
-                    <span class="fq-a">No. Once delegates check in for the day, campus security maintains a strict gate policy. Leaving early typically requires prior authorization from an official chaperone or guardian for emergencies.</span>
-                  </span>
-                </span>
-                <span class="fq-seat" aria-hidden="true">
-                  <span><small>SEC</small>FAQ</span>
-                  <span><small>ROW</small>03</span>
-                  <span><small>SEAT</small>05</span>
-                </span>
-              </span>
-              <span class="fq-barcode" aria-hidden="true"></span>
-              <span class="fq-perf" aria-hidden="true"></span>
-              <span class="fq-stub" aria-hidden="true">
-                <span class="fq-stub-q">Campus leave</span>
-                <span class="fq-stub-meta">KGSO · Q05</span>
-              </span>
-              <span class="fq-hint">Tap to open</span>
-            </button>
-          </article>
+        <!-- FAQ (js/faq.js) -->
+        <div class="dq" data-orbit>
+          <ol class="dq-list">
+            <li class="dq-item">
+              <button class="dq-q" type="button" id="dq-q1" aria-controls="dq-screen" aria-pressed="false">
+                <span class="kx-bg" aria-hidden="true"><i></i></span>
+                <span class="dq-num" aria-hidden="true">TX-01</span>
+                <span class="dq-text">What is KGSO?</span>
+                <span class="dq-led" aria-hidden="true"></span>
+              </button>
+              <p class="dq-a" id="dq-a1">KGSO is KGS's flagship STEM competition: 13 modules over 3 days (22 to 24 January), open to participants aged 13 to 18. Modules range from Biology and Crime to Fandom and the new Robotics module, with multiple rounds each and a social dinner on the final day. This year there is also an online event for university students.</p>
+            </li>
+            <li class="dq-item">
+              <button class="dq-q" type="button" id="dq-q2" aria-controls="dq-screen" aria-pressed="false">
+                <span class="kx-bg" aria-hidden="true"><i></i></span>
+                <span class="dq-num" aria-hidden="true">TX-02</span>
+                <span class="dq-text">What activities take place during the event?</span>
+                <span class="dq-led" aria-hidden="true"></span>
+              </button>
+              <p class="dq-a" id="dq-a2">Modules will run throughout each day, with breaks where you can eat and relax at our food stall partners before your next module. There will also be a social dinner on the final day.</p>
+            </li>
+            <li class="dq-item">
+              <button class="dq-q" type="button" id="dq-q3" aria-controls="dq-screen" aria-pressed="false">
+                <span class="kx-bg" aria-hidden="true"><i></i></span>
+                <span class="dq-num" aria-hidden="true">TX-03</span>
+                <span class="dq-text">What will it cost for a team?</span>
+                <span class="dq-led" aria-hidden="true"></span>
+              </button>
+              <p class="dq-a" id="dq-a3">Registration is Rs 2,500 per participant, plus a delegation fee of Rs 4,500. The delegation fee is paid once per team, not per person, so a team pays Rs 2,500 for each member plus a single Rs 4,500 on top. Early bird registration is available at a reduced fee; full details are on the registration form.</p>
+            </li>
+            <li class="dq-item">
+              <button class="dq-q" type="button" id="dq-q4" aria-controls="dq-screen" aria-pressed="false">
+                <span class="kx-bg" aria-hidden="true"><i></i></span>
+                <span class="dq-num" aria-hidden="true">TX-04</span>
+                <span class="dq-text">What is the dress code?</span>
+                <span class="dq-led" aria-hidden="true"></span>
+              </button>
+              <p class="dq-a" id="dq-a4">Official school delegations are required to wear their school uniform at all times. Regular or private delegations can wear semi-formal clothes.</p>
+            </li>
+            <li class="dq-item">
+              <button class="dq-q" type="button" id="dq-q5" aria-controls="dq-screen" aria-pressed="false">
+                <span class="kx-bg" aria-hidden="true"><i></i></span>
+                <span class="dq-num" aria-hidden="true">TX-05</span>
+                <span class="dq-text">Can delegates leave the campus during event hours?</span>
+                <span class="dq-led" aria-hidden="true"></span>
+              </button>
+              <p class="dq-a" id="dq-a5">No. Once delegates check in for the day, campus security maintains a strict gate policy. Leaving early typically requires prior authorization from an official chaperone or guardian for emergencies.</p>
+            </li>
+          </ol>
+          <div class="dq-screen" id="dq-screen" hidden>
+            <span class="kx-bg" aria-hidden="true"><i></i><b></b><b></b></span>
+            <div class="dq-bar" aria-hidden="true">
+              <span class="dq-rec"></span>
+              <span class="dq-ch">CH --</span>
+              <span class="dq-status">Awaiting signal</span>
+              <span class="dq-sig"><i></i><i></i><i></i><i></i><i></i></span>
+            </div>
+            <canvas class="dq-wave" aria-hidden="true"></canvas>
+            <p class="dq-qline" aria-hidden="true">Select a transmission</p>
+            <p class="dq-out" aria-hidden="true"><span class="dq-txt"></span><span class="dq-caret"></span></p>
+            <p class="dq-live sr-only" aria-live="polite"></p>
+            <span class="dq-noise" aria-hidden="true"></span>
+          </div>
         </div>
       </section>
       <section id="contact" class="kx-sec ct-sec" aria-labelledby="contact-title">
@@ -629,7 +577,7 @@
       </section>
     </main>
     <footer id="footer" class="ct-foot">
-      <p class="ct-credit">All rights reserved by @stem 2026/2027<br>Developed by Muhammad Hassan Jamshaid</p>
+      <p class="ct-credit">All rights reserved by @stem 2026/2027<br>Developed by <a class="ct-dev" href="https://github.com/Hassan-jamshaid-dev" target="_blank" rel="noopener noreferrer">Muhammad Hassan Jamshed</a></p>
     </footer>
   </div>
 
@@ -640,13 +588,13 @@
       <div id="logo-wrap">
         <div id="logo" role="img" aria-label="KGSO">
           <picture>
-            <source type="image/webp" srcset="assets/brand/logo-letters.webp?v=5">
-            <img class="letters" src="assets/brand/logo-letters.png?v=5" alt="" width="658" height="235" draggable="false" fetchpriority="high">
+            <source type="image/webp" srcset="assets/brand/logo-letters.webp?v=6">
+            <img class="letters" src="assets/brand/logo-letters.png?v=6" alt="" width="1400" height="491" draggable="false" fetchpriority="high">
           </picture>
           <span id="o-slot">
             <picture>
-              <source type="image/webp" srcset="assets/brand/helmet.webp?v=5">
-              <img id="helmet" src="assets/brand/helmet.png?v=5" alt="" width="241" height="230" draggable="false" fetchpriority="high">
+              <source type="image/webp" srcset="assets/brand/helmet.webp?v=6">
+              <img id="helmet" src="assets/brand/helmet.png?v=6" alt="" width="534" height="523" draggable="false" fetchpriority="high">
             </picture>
             <span id="pulse"></span>
           </span>
@@ -725,14 +673,15 @@
   <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js" integrity="sha384-lgP6SKZeYZwy7E1FNW3+rGRX/lkJF6ipUUkyET+ZdEhxkLidIF0aewQq2LZaOJ2x" crossorigin="anonymous"></script>
   <script defer src="js/countdown.js?v=3"></script>
-  <script defer src="js/intro.js?v=12"></script>
+  <script defer src="js/intro.js?v=14"></script>
+  <script defer src="js/transition.js?v=2"></script>
   <script defer src="js/helmet-path.js?v=47"></script>
-  <script defer src="js/nav.js?v=2"></script>
+  <script defer src="js/nav.js?v=3"></script>
   <script defer src="js/video.js?v=6"></script>
-  <script defer src="js/modules.js?v=4"></script>
+  <script defer src="js/modules.js?v=6"></script>
   <script defer src="js/register.js?v=3"></script>
-  <script defer src="js/schedule.js?v=2"></script>
+  <script defer src="js/schedule.js?v=4"></script>
   <script defer src="js/legacy.js?v=6"></script>
-  <script defer src="js/faq.js?v=1"></script>
+  <script defer src="js/faq.js?v=3"></script>
 </body>
 </html>

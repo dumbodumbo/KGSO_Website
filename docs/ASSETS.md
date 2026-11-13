@@ -15,8 +15,9 @@ All media lives under `assets/`. Nothing here is recompressed or converted by to
 
 | File | Size | Purpose |
 |---|---|---|
-| `logo-letters.webp` / `.png` | 101 KB / 180 KB | "KGS" letters of the logo in `#logo` (declared 658x235); webp preloaded |
-| `helmet.webp` / `.png` | 35 KB / 64 KB | Helmet that forms the "O" (declared 241x230); also copied into the companion helmet by `helmet-path.js` |
+| `logo-letters.webp` / `.png` | 65 KB / 89 KB | "KGS" letters of the logo in `#logo` (declared 1400x491); webp preloaded |
+| `helmet.webp` / `.png` | 15 KB / 38 KB | Helmet that forms the "O" (declared 534x523); also copied into the companion helmet by `helmet-path.js` |
+| `kgso-share.jpg` | 128 KB | Full KGSO logo on the space background; Open Graph / Twitter share image |
 | `favicon.ico`, `favicon.png` (32), `favicon-48.png`, `apple-touch-icon.png` | 3 KB, 1 KB, 2 KB, 12 KB | Icons linked in `<head>` |
 | `starfield.jpg` | 10 KB | **Unreferenced.** Kept as a possible background texture |
 | `helmet-src.jpg` | 58 KB | **Unreferenced** source for the helmet; git-ignored (`*-src.*`) |

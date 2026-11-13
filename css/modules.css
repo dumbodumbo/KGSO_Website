@@ -169,3 +169,13 @@ html.reduced-motion .mc-badge, html.reduced-motion .mc-dot span { animation: non
   .mc-dot span { width: 10px; height: 10px; }
   .mc-dots { gap: 2px; }
 }
+
+/* Pixel-art module icons (12 x 12 grid, colours from the KGSO XIII invite) */
+.mc-icon--px {
+  width: calc(var(--cw) * .32); stroke: none; image-rendering: pixelated;
+  filter: drop-shadow(0 0 calc(var(--cw) * .02) color-mix(in srgb, var(--mc-accent, #b993ff) 70%, transparent))
+    drop-shadow(0 calc(var(--cw) * .012) 0 #0b0520);
+}
+.mc-card.is-active .mc-glow {
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--mc-accent, #8a5cf6) 35%, transparent), transparent);
+}

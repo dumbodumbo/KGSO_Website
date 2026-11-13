@@ -6,7 +6,7 @@
  */
 
 /* ====== GUIDEBOOK LINK: paste the guidebook URL here ====== */
-const GUIDEBOOK_URL = '#';
+const GUIDEBOOK_URL = 'assets/docs/KGSO_XIII_Invitation_Students.pdf?v=2';
 /* ========================================================== */
 
 (function () {

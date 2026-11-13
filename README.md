@@ -2,9 +2,18 @@
 
 Single-page static site for the **Karachi Grammar School Olympiad (KGSO)**, run by the KGS STEM Society. No backend, no package manager, no build step.
 
+
+## Run it locally
+
+- **Mac:** double-click `Start KGSO (Mac).command`. It starts a small local server and opens the site at http://localhost:8000. The first time, macOS may block it: right-click the file, choose Open, then Open again.
+- **Windows:** double-click `Start KGSO (Windows).bat`.
+- **Any system with Python 3:** in this folder run `python3 -m http.server 8000`, then open http://localhost:8000.
+
+Close the terminal window to stop the server.
+
 ## What it is
 
-One page (`index.html`) with a GSAP-driven intro and countdown, highlights video, About, Scale & Legacy stats, a Modules carousel (13 modules), Schedule (22-24 January 2027), expandable Legacy galleries (2024-2026), FAQ, Contact, and a registration popup.
+The main page (`index.html`) with a GSAP-driven intro and countdown, highlights video, About, Scale & Legacy stats, a Modules carousel (13 modules), Schedule (22-24 January 2027), expandable Legacy galleries (2024-2026), FAQ, Contact, and a registration popup. Two pages sit beside it: `vendors.html` (crashed snack rocket and vendor crates) and `sponsors.html` (sponsor cards by tier).
 
 ## Stack
 
@@ -16,9 +25,11 @@ One page (`index.html`) with a GSAP-driven intro and countdown, highlights video
 ## Structure
 
 ```
-index.html          the whole page
-css/                style, intro, countdown, video, register, about, modules, schedule, legacy, faq, contact
-js/                 countdown, intro, helmet-path, nav, video, modules, register, schedule, legacy, faq
+index.html          the main page
+vendors.html        vendors page (js/vendors.js, js/pixel.js, css/vendors.css)
+sponsors.html       sponsors page (css/pages.css)
+css/                pages (vendors + sponsors), style, intro, countdown, video, register, about, modules, schedule, legacy, faq, contact
+js/                 transition (fade between pages), pixel + vendors (vendors page), countdown, intro, helmet-path, nav, video, modules, register, schedule, legacy, faq
 assets/
   brand/            logo, helmet, favicons (+ local-only source originals)
   bg/               page background (webp + jpg)
@@ -52,6 +63,8 @@ These values are placeholders today and must be set by hand:
 | Registration form URLs | `REGISTER_LINKS` (`internal`, `external`) in `js/register.js` | `'#'` shows a "Form link coming soon" toast; also drives the Schedule registration buttons |
 | Guidebook URL | `GUIDEBOOK_URL` in `js/schedule.js` | `'#'` shows "Guidebook coming soon" |
 | Production domain | `https://example.com` in `index.html` (canonical, `og:url`, `og:image`, `twitter:image`), `robots.txt`, `sitemap.xml` | Replace with the real origin |
+| Vendors | `VENDORS` at the top of `js/vendors.js` | Name, what they serve, stall, and which pixel snack shows on the crate |
+| Sponsors | the cards in `sponsors.html` | Name, plus a logo `<img>` in place of the "Logo" box |
 | Event date | `TARGET` in `js/countdown.js` (22 Jan 2027, visitor local time) | Schedule dates are in `index.html` |
 
 After changing a file, bump its `?v=N` in `index.html` (see [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)).
@@ -80,4 +93,4 @@ After changing a file, bump its `?v=N` in `index.html` (see [docs/DEVELOPMENT.md
 
 ## Credit
 
-Developed by Muhammad Hassan Jamshaid (see the page footer).
+Developed by [Muhammad Hassan Jamshed](https://github.com/Hassan-jamshaid-dev) (see the page footer).

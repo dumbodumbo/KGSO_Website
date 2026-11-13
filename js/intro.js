@@ -67,9 +67,19 @@
       var el = document.getElementById(id);
       if (el) {
         // layout must settle after unlocking overflow / showing the page
+        var moved = false;
+        var mark = function () { moved = true; };
+        ['wheel', 'touchstart', 'keydown'].forEach(function (ev) { window.addEventListener(ev, mark, { once: true, passive: true }); });
+        var land = function () {
+          if (moved) return;
+          el.scrollIntoView({ behavior: 'instant', block: 'start' });
+        };
         requestAnimationFrame(function () {
-          el.scrollIntoView();
+          land();
           syncHelmetPath();
+          // layout can still shift a little after this, so land again unless the user scrolled
+          setTimeout(function () { land(); syncHelmetPath(); }, 250);
+          setTimeout(land, 900);
         });
         return;
       }
@@ -126,7 +136,7 @@
     tl.fromTo('#navbar', { y: -30 }, { y: 0, duration: 1, ease: 'power3.out', immediateRender: false }, t + 0.2);
     tl.fromTo('#countdown', { autoAlpha: 0, y: 24 },
       { autoAlpha: 1, y: 0, duration: 1.2, ease: 'power2.out', immediateRender: false }, t + 0.4);
-    tl.add(complete, t + fade + 0.2);
+    tl.add(function () { complete({ respectHash: true }); }, t + fade + 0.2);
   }
 
   // Skip: jump to the end-of-intro state (full logo), then a short fade to the page.
@@ -137,7 +147,7 @@
     gsap.to('#skip', { opacity: 0, duration: 0.3 });
     gsap.to('#intro-black', { opacity: 0, duration: 0.5, ease: 'power2.out' });
     gsap.fromTo('#countdown', { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: 0.5, ease: 'power2.out' });
-    gsap.fromTo(page, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out', onComplete: complete });
+    gsap.fromTo(page, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out', onComplete: function () { complete({ respectHash: true }); } });
   }
 
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
@@ -145,7 +155,16 @@
 
   initParallax();
 
-  if (!hasGsap) { root.classList.remove('intro-pre'); complete(); return; }
+  if (!hasGsap) { root.classList.remove('intro-pre'); complete({ respectHash: true }); return; }
+
+  // coming back from vendors/sponsors: no intro
+  if (window.__kgsoNoIntro) {
+    root.classList.remove('intro-pre');
+    var sk = document.getElementById('skip');
+    if (sk) sk.hidden = true;
+    complete({ respectHash: true });
+    return;
+  }
 
   /* ---------- Reduced motion: short fade, no flight ---------- */
   if (reduced) {

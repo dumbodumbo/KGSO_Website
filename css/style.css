@@ -186,6 +186,12 @@ html.intro-hide #page { opacity: 0; visibility: hidden; }
   #navbar nav a:last-child { border-bottom: 0; }
 }
 
+/* nine nav links: tighten a little before the hamburger kicks in */
+@media (max-width: 1180px) and (min-width: 901px) {
+  #navbar nav { gap: clamp(8px, 1.4vw, 18px); }
+  #navbar nav a { font-size: .74rem; }
+}
+
 @media (max-width: 520px) {
   #navbar .brand { font-size: 1rem; }
 }
@@ -195,3 +201,32 @@ html.intro-hide #page { opacity: 0; visibility: hidden; }
   #navbar.is-nav-open nav,
   .nav-toggle-box span { transition: none; }
 }
+
+/* ---------- page transition (js/transition.js) ---------- */
+html.warp-leave::after, html.warp-in::after {
+  content: ''; position: fixed; inset: -10%; z-index: 5000; pointer-events: none;
+  background:
+    url('../assets/brand/helmet.webp?v=6') center no-repeat,
+    radial-gradient(1.5px 1.5px at 20% 30%, #fff, #0000),
+    radial-gradient(1px 1px at 70% 20%, #e2d4ff, #0000),
+    radial-gradient(1.5px 1.5px at 40% 80%, #c9a8ff, #0000),
+    radial-gradient(1px 1px at 85% 65%, #fff, #0000),
+    radial-gradient(1px 1px at 10% 85%, #b993ff, #0000),
+    radial-gradient(ellipse at center, #1d0b4a 0%, #07020f 70%);
+  background-size: clamp(56px, 7vw, 84px) auto, 220px 220px, 260px 260px, 300px 300px, 180px 180px, 240px 240px, auto;
+}
+html.warp-leave::after { animation: warp-cover .42s cubic-bezier(.5, 0, .9, .4) forwards; }
+html.warp-in::after { opacity: 1; }
+html.warp-in.warp-go::after { animation: warp-reveal .65s cubic-bezier(.2, .6, .3, 1) forwards; }
+@keyframes warp-cover {
+  from { opacity: 0; transform: scale(1.35); filter: blur(2px); }
+  to { opacity: 1; transform: scale(1); filter: blur(0); }
+}
+@keyframes warp-reveal {
+  from { opacity: 1; transform: scale(1); filter: blur(0); }
+  to { opacity: 0; transform: scale(1.5); filter: blur(3px); }
+}
+html.reduced-motion.warp-leave::after { animation: warp-fade-in .2s linear forwards; }
+html.reduced-motion.warp-in.warp-go::after { animation: warp-fade-out .25s linear forwards; }
+@keyframes warp-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes warp-fade-out { from { opacity: 1; } to { opacity: 0; } }

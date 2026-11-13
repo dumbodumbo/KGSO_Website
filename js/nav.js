@@ -4,6 +4,13 @@
 (function () {
   'use strict';
 
+  // links back to index.html skip the intro there
+  [].forEach.call(document.querySelectorAll('a[href^="index.html"]'), function (a) {
+    a.addEventListener('click', function () {
+      try { sessionStorage.setItem('kgso_return', '1'); } catch (e) {}
+    });
+  });
+
   var bar = document.getElementById('navbar');
   var btn = bar && bar.querySelector('.nav-toggle');
   var nav = document.getElementById('site-nav');
