@@ -1,14 +1,14 @@
 /*
  * register.js
  * Registration popup. Any [data-register] element opens it (the countdown button, and later
- * a navbar item); each option opens its Google Form in a new tab.
+ * a navbar item); each option opens its registration form in a new tab.
  * Public: window.KGSORegister.open(trigger?) / .close()
  */
 
-/* ====== REGISTRATION FORM LINKS: paste the Google Form URLs here ====== */
+/* ====== REGISTRATION FORM LINKS: paste the registration form URLs here ====== */
 const REGISTER_LINKS = {
-  internal: '#',   // KGS students
-  external: '#'    // other schools
+  internal: 'https://tally.so/r/o9DW65',   // KGS students
+  external: 'https://tally.so/r/e5rAv0'    // other schools
 };
 /* ===================================================================== */
 

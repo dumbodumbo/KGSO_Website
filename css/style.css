@@ -36,10 +36,10 @@ body {
 #bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; background: #000; container-type: size; }
 #bg .bg-img {
   position: absolute; left: 0; right: 0; top: -4%; height: 108%;
-  background: url('../assets/bg/background.jpg?v=5') no-repeat;
+  background: url('../assets/bg/background.jpg?v=6') no-repeat;
   background-image: image-set(
-    url('../assets/bg/background.webp?v=5') type('image/webp'),
-    url('../assets/bg/background.jpg?v=5') type('image/jpeg')
+    url('../assets/bg/background.webp?v=6') type('image/webp'),
+    url('../assets/bg/background.jpg?v=6') type('image/jpeg')
   );
   background-repeat: no-repeat;
   background-size: var(--iw) var(--ih);

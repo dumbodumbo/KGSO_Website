@@ -1,6 +1,6 @@
 # KGSO Website
 
-Single-page static site for the **Karachi Grammar School Olympiad (KGSO)**, run by the KGS STEM Society. No backend, no package manager, no build step.
+Single-page static site for the **Karachi Grammar School STEM Olympiad (KGSO)**, run by the KGS STEM Society. No backend, no package manager, no build step.
 
 
 ## Run it locally
