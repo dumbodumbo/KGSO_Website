@@ -114,6 +114,7 @@ html.reduced-motion .kx-star, html.reduced-motion .kx-spark { animation: none; }
   color: #e6dcff; letter-spacing: .005em; text-wrap: pretty;
 }
 .kx-text + .kx-text { margin-top: 1em; }
+.kx-text + .kx-kicker { margin-top: 2.1em; }
 .kx-text strong { font-weight: 600; color: #fff; text-shadow: 0 0 .8em #a67cff88; }
 
 /* ---------- Scale & Legacy: stat tiles ---------- */
