@@ -41,15 +41,15 @@
   ];
 
   /* ---------- Module categories: teams pick one module from each ---------- */
-  var CATEGORIES = [
-    { id: 0, label: 'All modules', short: 'All' },
-    { id: 1, label: 'Category 1', short: 'Cat 1' },
-    { id: 2, label: 'Category 2', short: 'Cat 2' },
-    { id: 3, label: 'Category 3', short: 'Cat 3' },
-    { id: 4, label: 'Category 4', short: 'Cat 4' }
-  ];
+  var CAT_IDS = [1, 2, 3, 4];
   function inCat(id) {
-    return id ? MODULES.filter(function (m) { return m.cat === id; }) : MODULES.slice();
+    return MODULES.filter(function (m) { return m.cat === id; });
+  }
+  /* carousel order: grouped by category, alphabetical within each */
+  function orderedModules() {
+    var out = [];
+    CAT_IDS.forEach(function (id) { out = out.concat(inCat(id)); });
+    return out;
   }
 
   function gearPath(cx, cy, ro, ri, n) {
@@ -223,6 +223,7 @@
         if (i === cur) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current');
       });
       if (live) live.textContent = ACTIVE[cur].name + ', module ' + (cur + 1) + ' of ' + n;
+      updateCat();
     }
 
     function go(i) {
@@ -312,32 +313,30 @@
       }, 120);
     });
 
-    /* category tabs: filter the carousel to one category at a time */
-    var tabsEl = document.querySelector('#modules .mc-tabs');
-    if (tabsEl) {
-      var tabs = [];
-      CATEGORIES.forEach(function (cat) {
-        var list = inCat(cat.id);
-        var b = document.createElement('button');
-        b.type = 'button';
-        b.className = 'mc-tab';
-        b.setAttribute('aria-pressed', cat.id === 0 ? 'true' : 'false');
-        b.innerHTML = '<span class="kx-bg" aria-hidden="true"><i></i></span>' +
-          '<span class="mc-tab-label">' + cat.label + '</span>' +
-          '<span class="mc-tab-list">' + list.map(function (m) { return m.name; }).join(' &middot; ') + '</span>';
-        b.addEventListener('click', function () {
-          tabs.forEach(function (t) { t.setAttribute('aria-pressed', 'false'); t.classList.remove('is-active'); });
-          b.setAttribute('aria-pressed', 'true');
-          b.classList.add('is-active');
-          build(list);
-        });
-        tabsEl.appendChild(b);
-        tabs.push(b);
-      });
-      tabs[0].classList.add('is-active');
+    /* category indicator: updates as you move through the grouped carousel */
+    var catEl = document.querySelector('#modules .mc-cat');
+    var catLabel, catMods, catPips = [];
+    if (catEl) {
+      catEl.innerHTML =
+        '<span class="mc-cat-pips" aria-hidden="true">' +
+        CAT_IDS.map(function () { return '<i></i>'; }).join('') +
+        '</span>' +
+        '<span class="mc-cat-label"></span>' +
+        '<span class="mc-cat-mods"></span>';
+      catLabel = catEl.querySelector('.mc-cat-label');
+      catMods = catEl.querySelector('.mc-cat-mods');
+      catPips = Array.prototype.slice.call(catEl.querySelectorAll('.mc-cat-pips i'));
+    }
+    function updateCat() {
+      if (!catEl || !ACTIVE[cur]) return;
+      var id = ACTIVE[cur].cat;
+      catLabel.textContent = 'Category ' + id;
+      catMods.textContent = inCat(id).map(function (m) { return m.name; }).join(' \u00b7 ');
+      catEl.style.setProperty('--mc-accent', ACTIVE[cur].color);
+      catPips.forEach(function (p, i) { p.classList.toggle('is-active', CAT_IDS[i] === id); });
     }
 
-    build(MODULES.slice());
+    build(orderedModules());
   }
 
   if (!hasGsap) return;
